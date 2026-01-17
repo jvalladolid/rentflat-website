@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { FlatImage } from '@/data/flat-dto';
 
@@ -13,6 +13,9 @@ interface GalleryProps {
 export function Gallery({ images }: GalleryProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const modalRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef<number | null>(null);
 
   const open = (index: number) => {
     setActiveIndex(index);
@@ -31,7 +34,8 @@ export function Gallery({ images }: GalleryProps) {
     setActiveIndex((i) => (i - 1 + images.length) % images.length);
   }, [images.length]);
 
-  // Keyboard navigation
+  /* ---------------- Keyboard ---------------- */
+
   useEffect(() => {
     if (!isOpen) return;
 
@@ -39,11 +43,59 @@ export function Gallery({ images }: GalleryProps) {
       if (e.key === 'Escape') close();
       if (e.key === 'ArrowRight') next();
       if (e.key === 'ArrowLeft') prev();
+
+      // Focus trap
+      if (e.key === 'Tab' && modalRef.current) {
+        const focusable = modalRef.current.querySelectorAll<HTMLElement>('button');
+
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
 
+    document.body.style.overflow = 'hidden';
     window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
+
+    // Initial focus
+    setTimeout(() => {
+      modalRef.current?.querySelector<HTMLElement>('button')?.focus();
+    }, 0);
+
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKeyDown);
+    };
   }, [isOpen, close, next, prev]);
+
+  /* ---------------- Touch (Swipe) ---------------- */
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+
+    const deltaX = e.changedTouches[0].clientX - touchStartX.current;
+
+    if (Math.abs(deltaX) > 50) {
+      if (deltaX > 0) {
+        prev();
+      } else {
+        next();
+      }
+    }
+
+    touchStartX.current = null;
+  };
 
   return (
     <section className="py-12">
@@ -73,8 +125,17 @@ export function Gallery({ images }: GalleryProps) {
         <div
           className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
           onClick={close}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image gallery"
         >
-          <div className="relative w-full max-w-5xl h-[80vh]" onClick={(e) => e.stopPropagation()}>
+          <div
+            ref={modalRef}
+            className="relative w-full max-w-5xl h-[80vh]"
+            onClick={(e) => e.stopPropagation()}
+            onTouchStart={onTouchStart}
+            onTouchEnd={onTouchEnd}
+          >
             <Image
               src={images[activeIndex].src}
               alt={images[activeIndex].alt}
@@ -82,6 +143,11 @@ export function Gallery({ images }: GalleryProps) {
               className="object-contain"
               priority
             />
+
+            {/* Counter */}
+            <span className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm">
+              {activeIndex + 1} / {images.length}
+            </span>
 
             {/* Close */}
             <button
@@ -96,7 +162,7 @@ export function Gallery({ images }: GalleryProps) {
             <button
               onClick={prev}
               className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl"
-              aria-label="Previous"
+              aria-label="Previous image"
             >
               ‹
             </button>
@@ -104,7 +170,7 @@ export function Gallery({ images }: GalleryProps) {
             <button
               onClick={next}
               className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl"
-              aria-label="Next"
+              aria-label="Next image"
             >
               ›
             </button>
