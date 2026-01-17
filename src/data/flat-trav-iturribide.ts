@@ -22,12 +22,80 @@ export const flat: Flat = {
   ],
   images: [
     {
-      src: '/images/living-room.jpg',
-      alt: 'Living room with sofa and dining table',
+      src: '/images/TravesiaIturribide/Salon_1.jpeg',
+      alt: 'Salón con zona de estar y zona de comedor',
     },
     {
-      src: '/images/kitchen.jpg',
-      alt: 'Fully equipped kitchen',
+      src: '/images/TravesiaIturribide/Salon_2.jpeg',
+      alt: 'Salón con zona de estar y zona de comedor',
+    },
+    {
+      src: '/images/TravesiaIturribide/Salon_3.jpeg',
+      alt: 'Salón con zona de estar y zona de comedor',
+    },
+    {
+      src: '/images/TravesiaIturribide/Salon_4.jpeg',
+      alt: 'Salón con zona de estar y zona de comedor',
+    },
+    {
+      src: '/images/TravesiaIturribide/Salon_5.jpeg',
+      alt: 'Salón con zona de estar y zona de comedor',
+    },
+    {
+      src: '/images/TravesiaIturribide/Salon_6.jpeg',
+      alt: 'Salón con zona de estar y zona de comedor',
+    },
+    {
+      src: '/images/TravesiaIturribide/Cocina_1.jpeg',
+      alt: 'Cocina totalmente equipada',
+    },
+    {
+      src: '/images/TravesiaIturribide/Cocina_2.jpeg',
+      alt: 'Cocina totalmente equipada',
+    },
+    {
+      src: '/images/TravesiaIturribide/Cocina_3.jpeg',
+      alt: 'Cocina totalmente equipada',
+    },
+    {
+      src: '/images/TravesiaIturribide/Cocina_4.jpeg',
+      alt: 'Cocina totalmente equipada',
+    },
+    {
+      src: '/images/TravesiaIturribide/Hab_1_1.jpeg',
+      alt: 'Habitación Número 1',
+    },
+    {
+      src: '/images/TravesiaIturribide/Hab_1_2.jpeg',
+      alt: 'Habitación Número 1',
+    },
+    {
+      src: '/images/TravesiaIturribide/Hab_1_3.jpeg',
+      alt: 'Habitación Número 1',
+    },
+    {
+      src: '/images/TravesiaIturribide/Hab_2_1.jpeg',
+      alt: 'Habitación Número 2',
+    },
+    {
+      src: '/images/TravesiaIturribide/Hab_2_2.jpeg',
+      alt: 'Habitación Número 2',
+    },
+    {
+      src: '/images/TravesiaIturribide/Bano_1.jpeg',
+      alt: 'Baño completo',
+    },
+    {
+      src: '/images/TravesiaIturribide/Bano_2.jpeg',
+      alt: 'Baño completo',
+    },
+    {
+      src: '/images/TravesiaIturribide/Entrada_Pasillo.jpeg',
+      alt: 'Entrada y pasillo',
+    },
+    {
+      src: '/images/TravesiaIturribide/Pasillo.jpeg',
+      alt: 'Entrada y pasillo',
     },
   ],
   nearbyServices: [
