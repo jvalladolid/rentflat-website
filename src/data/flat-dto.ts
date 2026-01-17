@@ -14,6 +14,10 @@ export interface NearbyService {
   name: string;
   type: ServiceType;
   travelTimes: TravelTime[];
+  location?: {
+    lat: number;
+    lng: number;
+  };
 }
 
 export interface FlatImage {
@@ -28,6 +32,10 @@ export interface Flat {
   location: {
     area: string;
     city: string;
+    coordinates?: {
+      lat: number;
+      lng: number;
+    };
   };
   description: string;
   features: string[];

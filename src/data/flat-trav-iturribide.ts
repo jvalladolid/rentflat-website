@@ -109,6 +109,10 @@ export const flat: Flat = {
           minutes: 5,
         },
       ],
+      location: {
+        lat: 43.25416021985116,
+        lng: -2.9146234718575315,
+      },
     },
     {
       id: 'supermercado',
@@ -120,6 +124,10 @@ export const flat: Flat = {
           minutes: 7,
         },
       ],
+      location: {
+        lat: 43.255417202401986,
+        lng: -2.912992733670188,
+      },
     },
     {
       id: 'supermercado',
@@ -131,6 +139,10 @@ export const flat: Flat = {
           minutes: 7,
         },
       ],
+      location: {
+        lat: 43.25527825294954,
+        lng: -2.9132292544629084,
+      },
     },
     {
       id: 'supermercado',
@@ -153,6 +165,10 @@ export const flat: Flat = {
           minutes: 20,
         },
       ],
+      location: {
+        lat: 43.26173249035343,
+        lng: -2.954017196137396,
+      },
     },
     {
       id: 'hospital',
@@ -164,6 +180,10 @@ export const flat: Flat = {
           minutes: 25,
         },
       ],
+      location: {
+        lat: 43.28363068809311,
+        lng: -2.9869162247711833,
+      },
     },
     {
       id: 'centro-salud',
@@ -175,6 +195,10 @@ export const flat: Flat = {
           minutes: 7,
         },
       ],
+      location: {
+        lat: 43.2556029688754,
+        lng: -2.9132292544629084,
+      },
     },
     {
       id: 'farmacia',
