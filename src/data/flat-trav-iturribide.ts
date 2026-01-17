@@ -35,49 +35,89 @@ export const flat: Flat = {
       id: 'metro',
       name: 'Estación de Metro de Santutxu',
       type: 'transporte',
-      walkingMinutes: 5,
+      travelTimes: [
+        {
+          mode: 'walking',
+          minutes: 5,
+        },
+      ],
     },
     {
       id: 'supermercado',
       name: 'Eroski',
       type: 'supermercado',
-      walkingMinutes: 7,
+      travelTimes: [
+        {
+          mode: 'walking',
+          minutes: 7,
+        },
+      ],
     },
     {
       id: 'supermercado',
       name: 'BM Supermercado',
       type: 'supermercado',
-      walkingMinutes: 7,
+      travelTimes: [
+        {
+          mode: 'walking',
+          minutes: 7,
+        },
+      ],
     },
     {
       id: 'supermercado',
       name: 'Fruterías, Carnicerías y Tiendas Locales',
       type: 'supermercado',
-      walkingMinutes: 2,
+      travelTimes: [
+        {
+          mode: 'walking',
+          minutes: 2,
+        },
+      ],
     },
     {
       id: 'hospital',
       name: 'Hospital de Basurto',
       type: 'salud',
-      walkingMinutes: 20,
+      travelTimes: [
+        {
+          mode: 'publicTransport',
+          minutes: 20,
+        },
+      ],
     },
     {
       id: 'hospital',
       name: 'Hospital de Cruces',
       type: 'salud',
-      walkingMinutes: 25,
+      travelTimes: [
+        {
+          mode: 'publicTransport',
+          minutes: 25,
+        },
+      ],
     },
     {
       id: 'centro-salud',
       name: 'Centro de Salud de Santutxu',
       type: 'salud',
-      walkingMinutes: 7,
+      travelTimes: [
+        {
+          mode: 'walking',
+          minutes: 7,
+        },
+      ],
     },
     {
       id: 'farmacia',
       name: 'Farmacias 2-3',
       type: 'salud',
-      walkingMinutes: 7,
+      travelTimes: [
+        {
+          mode: 'walking',
+          minutes: 7,
+        },
+      ],
     },
   ],
   availability: {

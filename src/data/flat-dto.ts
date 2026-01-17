@@ -2,11 +2,18 @@
 
 export type ServiceType = 'transporte' | 'supermercado' | 'salud' | 'ocio';
 
+export type TravelMode = 'walking' | 'publicTransport';
+
+export interface TravelTime {
+  mode: TravelMode;
+  minutes: number;
+}
+
 export interface NearbyService {
   id: string;
   name: string;
   type: ServiceType;
-  walkingMinutes: number;
+  travelTimes: TravelTime[];
 }
 
 export interface FlatImage {
