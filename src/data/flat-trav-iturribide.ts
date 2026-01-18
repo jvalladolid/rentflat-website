@@ -12,13 +12,12 @@ export const flat: Flat = {
     'Apartamento espacioso y luminoso en Santutxu, totalmente amueblado y con luz natural. Bien conectado por transporte público. Área tranquila con todos los servicios cercanos.',
   features: [
     '2 habitaciones con espacio para estudio',
-    'Cocina totalmente equipada',
+    'Cocina totalmente equipada: nevera, lavadora, vitrocerámica, horno, microondas',
     'Salón amplio con espacio de comedor, que podría usarse como un tercer espacio para estudio',
     '1 baño completo con ducha',
-    'Ascensor',
-    'Totalmente mueblado',
-    'Pequeña despensa',
+    'Totalmente amueblado',
     'Conexión a Internet de alta velocidad (600 Mbps) incluida',
+    'Ascensor',
   ],
   images: [
     {
@@ -115,47 +114,6 @@ export const flat: Flat = {
       },
     },
     {
-      id: 'supermercado',
-      name: 'Eroski',
-      type: 'supermercado',
-      travelTimes: [
-        {
-          mode: 'walking',
-          minutes: 7,
-        },
-      ],
-      location: {
-        lat: 43.255417202401986,
-        lng: -2.912992733670188,
-      },
-    },
-    {
-      id: 'supermercado',
-      name: 'BM Supermercado',
-      type: 'supermercado',
-      travelTimes: [
-        {
-          mode: 'walking',
-          minutes: 7,
-        },
-      ],
-      location: {
-        lat: 43.25527825294954,
-        lng: -2.9132292544629084,
-      },
-    },
-    {
-      id: 'supermercado',
-      name: 'Fruterías, Carnicerías y Tiendas Locales',
-      type: 'supermercado',
-      travelTimes: [
-        {
-          mode: 'walking',
-          minutes: 2,
-        },
-      ],
-    },
-    {
       id: 'hospital',
       name: 'Hospital de Basurto',
       type: 'salud',
@@ -183,6 +141,47 @@ export const flat: Flat = {
       location: {
         lat: 43.28363068809311,
         lng: -2.9869162247711833,
+      },
+    },
+    {
+      id: 'supermercados',
+      name: 'Supermercados cercanos: Eroski, BM, Lidl, Dia,...',
+      type: 'supermercado',
+      travelTimes: [
+        {
+          mode: 'walking',
+          minutes: 7,
+        },
+      ],
+      location: {
+        lat: 43.25527825294954,
+        lng: -2.9132292544629084,
+      },
+    },
+    {
+      id: 'supermercado',
+      name: 'Fruterías, Carnicerías y Tiendas Locales',
+      type: 'supermercado',
+      travelTimes: [
+        {
+          mode: 'walking',
+          minutes: 2,
+        },
+      ],
+    },
+    {
+      id: 'gimnasio',
+      name: 'Gimnasios cercanos: Nivel 3, Curves, Metropolitan,...',
+      type: 'sports',
+      travelTimes: [
+        {
+          mode: 'walking',
+          minutes: 8,
+        },
+      ],
+      location: {
+        lat: 43.25549337303322,
+        lng: -2.9134142184785063,
       },
     },
     {
