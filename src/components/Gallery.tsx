@@ -99,7 +99,7 @@ export function Gallery({ images }: GalleryProps) {
 
   return (
     <section className="py-12">
-      <h2 className="text-2xl font-bold mb-4">Gallery</h2>
+      <h2 className="text-2xl font-bold mb-4">GALERÍA DE IMÁGENES</h2>
 
       {/* Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

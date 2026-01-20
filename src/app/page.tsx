@@ -5,6 +5,7 @@ import { Hero } from '@/components/Hero';
 import { Gallery } from '@/components/Gallery';
 import { Description } from '@/components/Description';
 import { Neighborhood } from '@/components/Neighborhood';
+import { MapSection } from '@/components/MapSection';
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <Gallery images={flat.images} />
       <Description description={flat.description} features={flat.features} />
       <Neighborhood services={flat.nearbyServices} />
+      <MapSection services={flat.nearbyServices} />
     </main>
   );
 }

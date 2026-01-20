@@ -8,7 +8,7 @@ interface NeighborhoodProps {
 export function Neighborhood({ services }: NeighborhoodProps) {
   return (
     <section className="py-12">
-      <h2 className="text-2xl font-bold mb-4">Neighborhood</h2>
+      <h2 className="text-2xl font-bold mb-4">SERVICIOS EN LA ZONA</h2>
 
       <ul className="space-y-4">
         {services.map((service) => (

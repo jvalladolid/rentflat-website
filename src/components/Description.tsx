@@ -7,7 +7,7 @@ interface DescriptionProps {
 export function Description({ description, features }: DescriptionProps) {
   return (
     <section className="py-12">
-      <h2 className="text-2xl font-bold mb-4">Description</h2>
+      <h2 className="text-2xl font-bold mb-4">DESCRIPCIÓN</h2>
       <p className="mb-6">{description}</p>
 
       <ul className="list-disc pl-5 space-y-1">

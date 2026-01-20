@@ -12,16 +12,17 @@ type Props = {
   services: NearbyService[];
 };
 
-export default function MapSection({ services }: Props) {
+export function MapSection({ services }: Props) {
   const hasMap = services.some((s) => s.location?.lat && s.location?.lng);
 
   return (
     <section className="space-y-6">
+      <h2 className="text-2xl font-bold mb-4">SERVICIOS EN LA ZONA</h2>
       {hasMap ? (
         <LeafletMap services={services} />
       ) : (
         <div className="rounded-lg bg-gray-100 p-6 text-center text-gray-600">
-          Map not available for this location yet.
+          Mapa no disponible para esta localización aún.
         </div>
       )}
 
