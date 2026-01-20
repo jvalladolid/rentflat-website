@@ -28,6 +28,9 @@ export interface FlatImage {
 export interface Flat {
   title: string;
   subtitle?: string;
+  numberOfRooms: number;
+  surfaceM2: number;
+  floorDesc: string;
   price: string;
   location: {
     area: string;

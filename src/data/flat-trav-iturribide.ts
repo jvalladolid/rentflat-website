@@ -1,9 +1,12 @@
 import { Flat } from './flat-dto';
 
 export const flat: Flat = {
-  title: 'APARTAMENTO DE 2 HABITACIONES EN SANTUTXU, BILBAO',
+  title: 'VIVIENDA DE 2 HABITACIONES EN SANTUTXU, BILBAO',
   subtitle: 'Ideal para residentes médicos y de enfermería',
   price: '1.200 € / mes',
+  numberOfRooms: 2,
+  surfaceM2: 81,
+  floorDesc: '4º exterior con ascensor',
   location: {
     area: 'Santutxu',
     city: 'Bilbao',
@@ -201,7 +204,7 @@ export const flat: Flat = {
     },
     {
       id: 'farmacia',
-      name: 'Farmacias 2-3',
+      name: 'Farmacias cercanas',
       type: 'salud',
       travelTimes: [
         {

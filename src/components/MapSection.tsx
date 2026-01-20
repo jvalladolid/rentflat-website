@@ -33,28 +33,7 @@ export function MapSection({ services }: MapSectionProps) {
       {/* ===================== */}
 
       {mapCenter ? (
-        <MapContainer
-          center={mapCenter as [number, number]}
-          zoom={15}
-          scrollWheelZoom={true}
-          className="h-80 w-full rounded-lg"
-        >
-          <TileLayer
-            attribution="&copy; OpenStreetMap contributors"
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-
-          {/* 4️⃣ SERVICE MARKERS ONLY */}
-          {servicesWithLocation.map((service) => (
-            <Marker key={service.id} position={[service.location!.lat, service.location!.lng]}>
-              <Popup>
-                <strong>{service.name}</strong>
-                <br />
-                {service.type}
-              </Popup>
-            </Marker>
-          ))}
-        </MapContainer>
+        <div></div>
       ) : (
         /**
          * 5️⃣ UX FALLBACK (no coordinates)

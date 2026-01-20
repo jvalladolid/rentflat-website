@@ -12,6 +12,8 @@ export function Neighborhood({ services }: NeighborhoodProps) {
     <section className="py-12">
       <h2 className="text-2xl font-bold mb-4">SERVICIOS EN LA ZONA</h2>
 
+      <MapSection services={services} />
+
       {/* ===================== */}
       {/*   SERVICES LIST */}
       {/* ===================== */}
