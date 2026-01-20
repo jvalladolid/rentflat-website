@@ -1,5 +1,6 @@
 // src/components/Neighborhood.tsx
 import { NearbyService } from '@/data/flat-dto';
+import { MapSection } from '@/components/MapSection';
 
 interface NeighborhoodProps {
   services: NearbyService[];
@@ -9,6 +10,8 @@ export function Neighborhood({ services }: NeighborhoodProps) {
   return (
     <section className="py-12">
       <h2 className="text-2xl font-bold mb-4">SERVICIOS EN LA ZONA</h2>
+
+      <MapSection services={services} />
 
       <ul className="space-y-4">
         {services.map((service) => (

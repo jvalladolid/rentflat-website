@@ -1,7 +1,7 @@
 import { Flat } from './flat-dto';
 
 export const flat: Flat = {
-  title: 'Apartamento de 2 habitaciones en Santutxu',
+  title: 'APARTAMENTO DE 2 HABITACIONES EN SANTUTXU, BILBAO',
   subtitle: 'Ideal para residentes médicos y de enfermería',
   price: '1.200 € / mes',
   location: {
