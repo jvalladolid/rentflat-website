@@ -2,11 +2,9 @@
 
 'use client';
 
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { NearbyService } from '@/data/flat-dto';
-import { serviceIconMap, serviceColorMap } from '@/components/Service-Icons';
 
 type MapSectionProps = {
   services: NearbyService[];
@@ -34,34 +32,37 @@ export function MapSection({ services }: MapSectionProps) {
       {/* 3️⃣ MAP (optional) */}
       {/* ===================== */}
 
-      {/* ===================== */}
-      {/* 6️⃣ SERVICES LIST */}
-      {/* ===================== */}
+      {mapCenter ? (
+        <MapContainer
+          center={mapCenter as [number, number]}
+          zoom={15}
+          scrollWheelZoom={true}
+          className="h-80 w-full rounded-lg"
+        >
+          <TileLayer
+            attribution="&copy; OpenStreetMap contributors"
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
 
-      <ul className="space-y-4">
-        {services.map((service) => {
-          const Icon = serviceIconMap[service.type];
-
-          return (
-            <li key={service.id} className="flex items-start gap-3">
-              {/* ✅ THIS IS WHERE YOUR ICON LINE GOES */}
-              <Icon className={`w-5 h-5 mt-1 ${serviceColorMap[service.type]} opacity-90`} />
-
-              <div>
+          {/* 4️⃣ SERVICE MARKERS ONLY */}
+          {servicesWithLocation.map((service) => (
+            <Marker key={service.id} position={[service.location!.lat, service.location!.lng]}>
+              <Popup>
                 <strong>{service.name}</strong>
-
-                <div className="text-sm text-gray-600">
-                  {service.travelTimes.map((t) => (
-                    <span key={t.mode} className="mr-3">
-                      {t.mode === 'walking' ? 'Walking' : 'Public transport'} · {t.minutes} min
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+                <br />
+                {service.type}
+              </Popup>
+            </Marker>
+          ))}
+        </MapContainer>
+      ) : (
+        /**
+         * 5️⃣ UX FALLBACK (no coordinates)
+         */
+        <div className="rounded-lg bg-gray-100 p-6 text-center text-gray-600">
+          Mapa no disponible para esta localización aún.
+        </div>
+      )}
     </section>
   );
 }
