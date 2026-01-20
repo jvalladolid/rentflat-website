@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import '@/lib/leaflet-icons';
 
 import { NearbyService } from '@/data/flat-dto';
+cd;
 
 type Props = {
   services: NearbyService[];
