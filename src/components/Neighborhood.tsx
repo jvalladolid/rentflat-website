@@ -1,7 +1,14 @@
 // src/components/Neighborhood.tsx
+
+'use client';
+
+import dynamic from 'next/dynamic';
 import { NearbyService } from '@/data/flat-dto';
-import { MapSection } from '@/components/MapSection';
 import { serviceIconMap, serviceColorMap } from '@/components/Service-Icons';
+
+const MapSection = dynamic(() => import('@/components/MapSection').then((mod) => mod.MapSection), {
+  ssr: false,
+});
 
 interface NeighborhoodProps {
   services: NearbyService[];
@@ -12,7 +19,12 @@ export function Neighborhood({ services }: NeighborhoodProps) {
     <section className="py-12">
       <h2 className="text-2xl font-bold mb-4">SERVICIOS EN LA ZONA</h2>
 
-      <MapSection services={services} />
+      {/* ===================== */}
+      {/*   MAP */}
+      {/* ===================== */}
+      <div className="mt-3">
+        <MapSection services={services} />
+      </div>
 
       {/* ===================== */}
       {/*   SERVICES LIST */}
