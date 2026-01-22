@@ -12,41 +12,38 @@ import { serviceColorHexMap } from '@/components/Service-Icons';
 /** ---- Configure Leaflet default icon paths (Next.js friendly) ---- */
 
 const defaultIcon = new L.Icon.Default({
-  iconRetinaUrl: '/public/leaflet/marker-icon-2x.png',
-  iconUrl: '/public/leaflet/marker-icon.png',
-  shadowUrl: '/public/leaflet/marker-shadow.png',
+  iconRetinaUrl: '/leaflet/marker-icon-2x.png',
+  iconUrl: '/leaflet/marker-icon.png',
+  shadowUrl: '/leaflet/marker-shadow.png',
 });
 
 L.Marker.prototype.options.icon = defaultIcon;
 
-const iconCache = new Map<string, L.Icon>();
+// SVG pin template (Leaflet-like)
+function svgPin(color: string) {
+  return `
+    <svg width="25" height="41" viewBox="0 0 25 41" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12.5 0C5.6 0 0 5.6 0 12.5C0 22 12.5 41 12.5 41C12.5 41 25 22 25 12.5C25 5.6 19.4 0 12.5 0Z"
+            fill="${color}" stroke="white" stroke-width="2"/>
+      <circle cx="12.5" cy="12" r="4.5" fill="white"/>
+    </svg>
+  `;
+}
 
-function iconForHex(hex: string): L.Icon {
-  const cached = iconCache.get(hex);
+const divIconCache = new Map<string, L.DivIcon>();
+function divIconForColor(color: string) {
+  const cached = divIconCache.get(color);
   if (cached) return cached;
 
-  // Map hex colors to file names
-  const hexToFile: Record<string, string> = {
-    '#2563eb': 'marker-icon-blue.png',
-    '#16a34a': 'marker-icon-green.png',
-    '#dc2626': 'marker-icon-red.png',
-    '#d97706': 'marker-icon-amber.png',
-    '#059669': 'marker-icon-emerald.png',
-  };
-
-  const base = hexToFile[hex] ?? 'marker-icon-blue.png';
-
-  const icon = new L.Icon({
-    iconRetinaUrl: `/leaflet/${base.replace('.png', '-2x.png')}`,
-    iconUrl: `/leaflet/${base}`,
-    shadowUrl: '/leaflet/marker-shadow.png',
+  const icon = L.divIcon({
+    className: 'custom-pin',
+    html: svgPin(color),
     iconSize: [25, 41],
     iconAnchor: [12, 41],
     popupAnchor: [1, -34],
-    shadowSize: [41, 41],
   });
 
-  iconCache.set(hex, icon);
+  divIconCache.set(color, icon);
   return icon;
 }
 
@@ -107,8 +104,8 @@ export function MapSection({ services }: MapSectionProps) {
           {/* Markers: use the default Leaflet pin (no custom icon prop) */}
           {servicesWithLocation.map((service) => {
             const { lat, lng } = service.location!;
-            const hex = serviceColorHexMap[service.type] ?? '#2563eb';
-            const icon = iconForHex(hex);
+            const color = serviceColorHexMap[service.type] ?? '#2563eb';
+            const icon = divIconForColor(color);
 
             return (
               <Marker key={`${service.id}-${lat}-${lng}`} position={[lat, lng]} icon={icon}>
