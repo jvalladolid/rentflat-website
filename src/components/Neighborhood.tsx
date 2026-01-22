@@ -22,9 +22,7 @@ export function Neighborhood({ services }: NeighborhoodProps) {
       {/* ===================== */}
       {/*   MAP */}
       {/* ===================== */}
-      <div className="mt-3">
-        <MapSection services={services} />
-      </div>
+      <MapSection services={services} />
 
       {/* ===================== */}
       {/*   SERVICES LIST */}

@@ -117,7 +117,7 @@ export const flat: Flat = {
       },
     },
     {
-      id: 'hospital',
+      id: 'hospital-basurto',
       name: 'Hospital de Basurto',
       type: 'salud',
       travelTimes: [
@@ -132,7 +132,7 @@ export const flat: Flat = {
       },
     },
     {
-      id: 'hospital',
+      id: 'hospital-cruces',
       name: 'Hospital de Cruces',
       type: 'salud',
       travelTimes: [
@@ -162,7 +162,7 @@ export const flat: Flat = {
       },
     },
     {
-      id: 'supermercado',
+      id: 'tiendas',
       name: 'Fruterías, Carnicerías y Tiendas Locales',
       type: 'supermercado',
       travelTimes: [
