@@ -16,3 +16,12 @@ export const serviceColorMap: Record<ServiceType, string> = {
   ocio: 'text-amber-600',
   sports: 'text-emerald-600',
 };
+
+// Tailwind v3 default palette approximations for *-600 shades:
+export const serviceColorHexMap: Record<ServiceType, string> = {
+  transporte: '#2563eb', // blue-600
+  supermercado: '#16a34a', // green-600
+  salud: '#dc2626', // red-600
+  ocio: '#d97706', // amber-600
+  sports: '#059669', // emerald-600
+};
