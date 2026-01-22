@@ -12,9 +12,9 @@ import { serviceColorHexMap } from '@/components/Service-Icons';
 /** ---- Configure Leaflet default icon paths (Next.js friendly) ---- */
 
 const defaultIcon = new L.Icon.Default({
-  iconRetinaUrl: '/leaflet/marker-icon-2x.png',
-  iconUrl: '/leaflet/marker-icon.png',
-  shadowUrl: '/leaflet/marker-shadow.png',
+  iconRetinaUrl: '/public/leaflet/marker-icon-2x.png',
+  iconUrl: '/public/leaflet/marker-icon.png',
+  shadowUrl: '/public/leaflet/marker-shadow.png',
 });
 
 L.Marker.prototype.options.icon = defaultIcon;
