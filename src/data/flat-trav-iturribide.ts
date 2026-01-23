@@ -12,7 +12,10 @@ export const flat: Flat = {
     city: 'Bilbao',
     approximateArea: {
       kind: 'circle',
-      center: { lat: 43.25463162160121, lng: -2.9148105285902326 },
+      center: {
+        lat: 43.25463162160121,
+        lng: -2.9148105285902326,
+      },
       radiusMeters: 350,
     },
   },

@@ -51,8 +51,7 @@ function boundsOfApproxArea(area: ApproxArea): L.LatLngBounds {
   if (area.kind === 'circle') {
     const { center, radiusMeters } = area;
     // Build a temporary circle to read its bounds
-    const circle = L.circle([center.lat, center.lng], { radius: radiusMeters });
-    return circle.getBounds();
+    return L.latLng(center.lat, center.lng).toBounds(radiusMeters);
   }
   if (area.kind === 'rectangle') {
     return L.latLngBounds(area.bounds);
