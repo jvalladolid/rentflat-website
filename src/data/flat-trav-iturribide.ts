@@ -13,10 +13,10 @@ export const flat: Flat = {
     approximateArea: {
       kind: 'circle',
       center: {
-        lat: 43.25463162160121,
-        lng: -2.9148105285902326,
+        lat: 43.255083930270054,
+        lng: -2.9152648816069195,
       },
-      radiusMeters: 350,
+      radiusMeters: 200,
     },
   },
   description:
