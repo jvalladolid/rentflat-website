@@ -65,7 +65,7 @@ function FitToArea({ area }: { area: ApproxArea }) {
   const map = useMap();
   useEffect(() => {
     const b = boundsOfApproxArea(area);
-    map.fitBounds(b, { padding: [24, 24] });
+    map.fitBounds(b, { padding: [140, 80] });
   }, [map, area]);
   return null;
 }

@@ -24,7 +24,7 @@ export function Neighborhood({ services, approximateArea }: NeighborhoodProps) {
       {/*   MAP */}
       {/* ===================== */}
 
-      <div className="mapWrapper mb-8">
+      <div className="mapWrapper h-105 mb-8">
         <MapSection services={services} approximateArea={approximateArea} />
       </div>
 
