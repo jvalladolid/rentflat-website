@@ -10,6 +10,11 @@ export const flat: Flat = {
   location: {
     area: 'Santutxu',
     city: 'Bilbao',
+    approximateArea: {
+      kind: 'circle',
+      center: { lat: 43.25463162160121, lng: -2.9148105285902326 },
+      radiusMeters: 350,
+    },
   },
   description:
     'Apartamento espacioso y luminoso en Santutxu, totalmente amueblado y con luz natural. Bien conectado por transporte público. Área tranquila con todos los servicios cercanos.',
