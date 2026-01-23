@@ -160,7 +160,22 @@ export function Gallery({ images }: GalleryProps) {
           plugins={[Captions, Zoom]}
           controller={{ closeOnBackdropClick: true }}
           animation={{ fade: 250 }}
-          carousel={{ finite: false }} // loop through images
+          carousel={{ finite: false }} // loop
+          /* Traducciones/ARIA en español */
+          labels={{
+            Next: 'Siguiente',
+            Previous: 'Anterior',
+            Close: 'Cerrar',
+            'Zoom in': 'Acercar',
+            'Zoom out': 'Alejar',
+            // Si añadimos más plugins más adelante:
+            // EnterFullscreen: 'Pantalla completa',
+            // ExitFullscreen: 'Salir de pantalla completa',
+            // Play: 'Reproducir',
+            // Pause: 'Pausar',
+            // Download: 'Descargar',
+            // Thumbnails: 'Miniaturas',
+          }}
         />
       )}
     </section>
