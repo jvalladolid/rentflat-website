@@ -3,19 +3,11 @@
 'use client';
 
 import 'leaflet/dist/leaflet.css';
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  useMap,
-  Circle,
-  Rectangle,
-  Polygon,
-} from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import type { NearbyService, ApproxArea } from '@/data/flat-dto';
-import { useEffect, useMemo, useRef } from 'react';
-import L, { LeafletEvent } from 'leaflet';
+import { useEffect, useMemo } from 'react';
+import { Circle, Rectangle, Polygon } from 'react-leaflet';
+import L, { LatLngBoundsExpression, LatLngTuple } from 'leaflet';
 import { serviceColorHexMap } from '@/components/Service-Icons';
 
 /** ---- Configure Leaflet default icon paths (Next.js friendly) ---- */
@@ -27,7 +19,7 @@ const defaultIcon = new L.Icon.Default({
 
 L.Marker.prototype.options.icon = defaultIcon;
 
-// SVG icon for marker
+// SVG pin template (Leaflet-like)
 function svgPin(color: string) {
   return `
     <svg width="25" height="41" viewBox="0 0 25 41" xmlns="http://www.w3.org/2000/svg">
@@ -40,7 +32,8 @@ function svgPin(color: string) {
 
 const divIconCache = new Map<string, L.DivIcon>();
 function divIconForColor(color: string) {
-  if (divIconCache.has(color)) return divIconCache.get(color)!;
+  const cached = divIconCache.get(color);
+  if (cached) return cached;
 
   const icon = L.divIcon({
     className: 'custom-pin',
@@ -68,97 +61,37 @@ function boundsOfApproxArea(area: ApproxArea): L.LatLngBounds {
   return L.latLngBounds(ring);
 }
 
-function FitToBounds({
-  bounds,
-  padding = [100, 100] as [number, number],
-}: {
-  bounds: L.LatLngBounds;
-  padding?: [number, number];
-}) {
-  const map = useMap();
-
-  useEffect(() => {
-    if (!bounds || !bounds.isValid()) return;
-
-    map.whenReady(() => {
-      map.fitBounds(bounds, { padding });
-    });
-  }, [map, bounds, padding]);
-
-  return null;
-}
-
-function SetMapRef({ onReady }: { onReady: (map: L.Map) => void }) {
+function FitToArea({ area }: { area: ApproxArea }) {
   const map = useMap();
   useEffect(() => {
-    onReady(map);
-  }, [map, onReady]);
+    const b = boundsOfApproxArea(area);
+    map.fitBounds(b, { padding: [140, 80] });
+  }, [map, area]);
   return null;
 }
 
 type MapSectionProps = {
   services: NearbyService[];
   approximateArea: ApproxArea;
-  selectedServiceKey: string | null;
 };
 
-export function MapSection({ services, approximateArea, selectedServiceKey }: MapSectionProps) {
-  const mapRef = useRef<L.Map | null>(null);
-  const markerRefs = useRef<Map<string, L.Marker>>(new Map());
-
+export function MapSection({ services, approximateArea }: MapSectionProps) {
   // 1) Filter services that have coordinates
   const servicesWithLocation = useMemo(
     () =>
-      services.filter(
+      (services ?? []).filter(
         (s) => typeof s?.location?.lat === 'number' && typeof s?.location?.lng === 'number',
       ),
     [services],
   );
 
-  // 2) Positions for markers
+  // 2) Positions for bounds (unconditional hooks)
   const positions = useMemo<[number, number][]>(() => {
     return servicesWithLocation.map((s) => [s.location!.lat, s.location!.lng]);
   }, [servicesWithLocation]);
 
-  // Area bounds and combined bounds
-  const areaBounds = useMemo(() => boundsOfApproxArea(approximateArea), [approximateArea]);
-  const combinedBounds = useMemo(() => {
-    if (areaBounds) {
-      positions.forEach(([lat, lng]) => areaBounds.extend([lat, lng]));
-      return areaBounds;
-    }
-    if (positions.length) {
-      return L.latLngBounds(positions.map(([lat, lng]) => L.latLng(lat, lng)));
-    }
-    return null;
-  }, [areaBounds, positions]);
-
   // 3) Initial center (fallback used only if empty)
   const initialCenter = positions[0] ?? [43.263, -2.935]; // Bilbao
-
-  // 4) React to clicking a service
-  useEffect(() => {
-    if (!selectedServiceKey) return;
-    const map = mapRef.current;
-    const marker = markerRefs.current.get(selectedServiceKey);
-    if (!map || !marker) return;
-
-    const ll = marker.getLatLng();
-    const targetZoom = Math.max(map.getZoom(), 16);
-    map.closePopup();
-    map.flyTo(ll, targetZoom, { duration: 0.6 });
-
-    const onEnd = () => {
-      marker.openPopup();
-      map.off('moveend', onEnd);
-    };
-    map.on('moveend', onEnd);
-
-    // ✅ Return a cleanup FUNCTION (void), not map.off(...) directly
-    return () => {
-      map.off('moveend', onEnd);
-    };
-  }, [selectedServiceKey]);
 
   return (
     <div style={{ height: 360, width: '100%' }}>
@@ -171,24 +104,19 @@ export function MapSection({ services, approximateArea, selectedServiceKey }: Ma
           style={{ height: '100%', width: '100%' }}
           scrollWheelZoom={true}
         >
-          <SetMapRef onReady={(map) => (mapRef.current = map)} />
-
           <TileLayer
             attribution="&copy; OpenStreetMap contributors"
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
 
-          {/* Auto-fit to area + markers only when nothing is selected */}
-          {!selectedServiceKey && combinedBounds && combinedBounds.isValid() && (
-            <FitToBounds bounds={combinedBounds} />
-          )}
-
           {/* Approximate area */}
-          {areaBounds && approximateArea && (
+          {approximateArea && (
             <>
+              <FitToArea area={approximateArea} />
+
               {approximateArea.kind === 'circle' && (
                 <Circle
-                  center={[approximateArea.center.lat, approximateArea.center.lng]}
+                  center={[approximateArea.center.lat, approximateArea.center.lng] as LatLngTuple}
                   radius={approximateArea.radiusMeters}
                   pathOptions={{ color: '#2563eb', fillColor: '#60a5fa', fillOpacity: 0.25 }}
                 />
@@ -196,38 +124,28 @@ export function MapSection({ services, approximateArea, selectedServiceKey }: Ma
 
               {approximateArea.kind === 'rectangle' && (
                 <Rectangle
-                  bounds={approximateArea.bounds}
+                  bounds={approximateArea.bounds as LatLngBoundsExpression}
                   pathOptions={{ color: '#2563eb', fillColor: '#60a5fa', fillOpacity: 0.2 }}
                 />
               )}
 
               {approximateArea.kind === 'polygon' && (
                 <Polygon
-                  positions={approximateArea.coordinates}
+                  positions={approximateArea.coordinates as LatLngTuple[]}
                   pathOptions={{ color: '#2563eb', fillColor: '#60a5fa', fillOpacity: 0.2 }}
                 />
               )}
             </>
           )}
 
-          {/* Markers with typed refs keyed by id:lat,lng */}
+          {/* Markers: use the default Leaflet pin (no custom icon prop) */}
           {servicesWithLocation.map((service) => {
             const { lat, lng } = service.location!;
             const color = serviceColorHexMap[service.type] ?? '#2563eb';
             const icon = divIconForColor(color);
-            const key = `${service.id}:${lat},${lng}`;
 
             return (
-              <Marker
-                key={key}
-                position={[lat, lng]}
-                icon={icon}
-                ref={(ref) => {
-                  const map = markerRefs.current;
-                  if (ref) map.set(key, ref);
-                  else map.delete(key);
-                }}
-              >
+              <Marker key={`${service.id}-${lat}-${lng}`} position={[lat, lng]} icon={icon}>
                 <Popup>
                   <strong>{service.name}</strong>
                   <div>Tipo: {service.type}</div>
