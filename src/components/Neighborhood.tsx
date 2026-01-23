@@ -5,6 +5,7 @@
 import dynamic from 'next/dynamic';
 import { NearbyService, ApproxArea } from '@/data/flat-dto';
 import { serviceIconMap, serviceColorMap } from '@/components/Service-Icons';
+import { useState } from 'react';
 
 const MapSection = dynamic(() => import('@/components/MapSection').then((mod) => mod.MapSection), {
   ssr: false,
@@ -16,6 +17,13 @@ interface NeighborhoodProps {
 }
 
 export function Neighborhood({ services, approximateArea }: NeighborhoodProps) {
+  const [selectedServiceKey, setSelectedServiceKey] = useState<string | null>(null);
+
+  function keyForService(service: NearbyService) {
+    if (!service.location) return service.id;
+    return `${service.id}:${service.location.lat},${service.location.lng}`;
+  }
+
   return (
     <section className="py-12">
       <h2 className="text-2xl font-bold mb-4">SERVICIOS EN LA ZONA</h2>
@@ -25,7 +33,11 @@ export function Neighborhood({ services, approximateArea }: NeighborhoodProps) {
       {/* ===================== */}
 
       <div className="mapWrapper h-105 mb-8">
-        <MapSection services={services} approximateArea={approximateArea} />
+        <MapSection
+          services={services}
+          approximateArea={approximateArea}
+          selectedServiceKey={selectedServiceKey}
+        />
       </div>
 
       {/* ===================== */}
