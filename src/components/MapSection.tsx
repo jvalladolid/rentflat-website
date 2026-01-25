@@ -205,22 +205,34 @@ export function MapSection({ services, approximateArea }: MapSectionProps) {
             return (
               <Marker key={`${service.id}-${lat}-${lng}`} position={[lat, lng]} icon={icon}>
                 <Popup>
-                  <strong>{service.name}</strong>
+                  <strong style={{ display: 'block', margin: 0, textAlign: 'left' }}>
+                    {service.name}
+                  </strong>
+
                   {service.travelTimes?.length ? (
-                    <ul style={{ paddingLeft: 16, margin: '6px 0 0' }}>
+                    <ul style={{ paddingLeft: 0, margin: '6px 0 0' }}>
                       {service.travelTimes.map((t, i) => (
-                        <li key={i} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <li
+                          key={i}
+                          style={{
+                            listStyle: 'none',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 6,
+                            whiteSpace: 'nowrap',
+                          }}
+                        >
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={t.mode === 'walking' ? WALKING_ICON_SRC : METRO_ICON_SRC}
-                            alt={t.mode === 'walking' ? 'Andando' : 'Transporte público'}
+                            alt={t.mode === 'walking' ? 'Andando' : 'En Metro'}
                             width={14}
                             height={14}
                             style={{ opacity: 0.9 }}
                           />
                           <span>
-                            {t.mode === 'walking' ? 'Andando' : 'Transporte público'} · {t.minutes}{' '}
-                            min
+                            {t.mode === 'walking' ? 'Andando' : 'En Metro'} · {t.minutes}
+                            {'\u00A0'}min
                           </span>
                         </li>
                       ))}
