@@ -1,6 +1,6 @@
 // src/data/flat-dto.ts
 
-export type ServiceType = 'transporte' | 'supermercado' | 'salud' | 'ocio' | 'sports';
+export type ServiceType = 'transporte' | 'supermercado' | 'salud' | 'pharmacy' | 'ocio' | 'sports';
 
 export type TravelMode = 'walking' | 'metro';
 

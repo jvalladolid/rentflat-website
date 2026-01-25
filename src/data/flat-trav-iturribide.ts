@@ -218,7 +218,7 @@ export const flat: Flat = {
     {
       id: 'farmacia',
       name: 'Farmacias cercanas',
-      type: 'salud',
+      type: 'pharmacy',
       travelTimes: [
         {
           mode: 'walking',
