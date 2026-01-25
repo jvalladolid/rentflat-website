@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import Lightbox from 'yet-another-react-lightbox';
 import Zoom from 'yet-another-react-lightbox/plugins/zoom';
+import Fullscreen from 'yet-another-react-lightbox/plugins/fullscreen';
 import 'yet-another-react-lightbox/styles.css';
 
 import { FlatImage } from '@/data/flat-dto';
@@ -34,7 +35,15 @@ export function Gallery({ images }: GalleryProps) {
         close={() => setOpen(false)}
         index={index}
         slides={slides}
-        plugins={[Zoom]}
+        plugins={[Zoom, Fullscreen]}
+        labels={{
+          Close: 'Cerrar',
+          Next: 'Siguiente',
+          Previous: 'Anterior',
+          'Zoom in': 'Acercar',
+          'Zoom out': 'Alejar',
+          'Exit Fullscreen': 'Salir de pantalla completa',
+        }}
       />
     </section>
   );
