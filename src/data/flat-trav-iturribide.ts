@@ -192,7 +192,7 @@ export const flat: Flat = {
       travelTimes: [
         {
           mode: 'walking',
-          minutes: 8,
+          minutes: 6,
         },
       ],
       location: {
@@ -222,7 +222,7 @@ export const flat: Flat = {
       travelTimes: [
         {
           mode: 'walking',
-          minutes: 7,
+          minutes: 4,
         },
       ],
       location: {
