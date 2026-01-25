@@ -16,7 +16,7 @@ export const MetroBilbaoIcon = ({ className }: { className?: string }) => {
       src="/icons/MetroBilbao.png"
       alt="Metro Bilbao"
       width={24}
-      height={24}
+      height={20}
       className={className}
     />
   );

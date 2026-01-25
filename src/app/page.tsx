@@ -1,5 +1,4 @@
 // src/app/page.tsx
-
 import { flat } from '@/data/flat-trav-iturribide';
 import { Hero } from '@/components/Hero';
 import { Gallery } from '@/components/Gallery';
@@ -10,7 +9,6 @@ import { MenuSection } from '@/components/MenuSection';
 export default function Home() {
   return (
     <main className="max-w-5xl mx-auto px-6">
-      {/* Sticky in-page menu */}
       <MenuSection />
 
       <section id="hero" className="scroll-mt-24">
