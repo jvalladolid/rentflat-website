@@ -2,17 +2,20 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Menu as MenuIcon, X } from 'lucide-react';
 import clsx from 'clsx';
 
 type Section = { id: string; label: string };
 
+// Centralize the section list so both the observer and UI use the same source.
 const SECTIONS: Section[] = [
   { id: 'hero', label: 'Inicio' },
   { id: 'gallery', label: 'Galería' },
   { id: 'description', label: 'Descripción' },
   { id: 'neighborhood', label: 'Servicios' },
 ];
+
+// Keep button aligned with the title level (same as your scroll offset: 24 = 6rem)
+const TOP_OFFSET_REM = 24; // Tailwind `top-24` equivalent
 
 export function MenuSection() {
   const [open, setOpen] = useState(false);
@@ -21,7 +24,7 @@ export function MenuSection() {
   const panelRef = useRef<HTMLDivElement | null>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
-  // Track visible section to show active item
+  // Track which section is in view
   useEffect(() => {
     const elements = SECTIONS.map((s) => document.getElementById(s.id)).filter(
       Boolean,
@@ -47,13 +50,13 @@ export function MenuSection() {
     return () => observerRef.current?.disconnect();
   }, []);
 
-  // Close on outside click
+  // Close when clicking outside or pressing Esc
   useEffect(() => {
     if (!open) return;
     const onDocClick = (e: MouseEvent) => {
-      const target = e.target as Node;
-      if (panelRef.current?.contains(target)) return;
-      if (buttonRef.current?.contains(target)) return;
+      const t = e.target as Node;
+      if (panelRef.current?.contains(t)) return;
+      if (buttonRef.current?.contains(t)) return;
       setOpen(false);
     };
     const onEsc = (e: KeyboardEvent) => {
@@ -73,42 +76,46 @@ export function MenuSection() {
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setOpen(false);
+      setOpen(false); // close panel, but the fixed button stays visible
     }
   };
 
-  return (
-    <div className="relative">
-      {/* Small top button (right aligned) */}
-      <div className="sticky top-2 z-50">
-        <div className="flex justify-end">
-          <button
-            ref={buttonRef}
-            type="button"
-            aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
-            aria-expanded={open}
-            aria-controls="menu-popover"
-            onClick={() => setOpen((v) => !v)}
-            className={clsx(
-              'inline-flex items-center justify-center',
-              'h-10 w-10 rounded-full shadow-sm border bg-white',
-              'text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500',
-            )}
-          >
-            {open ? <X className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
-          </button>
-        </div>
-      </div>
+  // Inline style for precise top offset (matches Tailwind top-24 by default)
+  const topPx = `calc(${TOP_OFFSET_REM / 4}rem)`; // 24 → 6rem
 
-      {/* Popover panel */}
+  return (
+    <>
+      {/* Fixed small "≡" button, same on mobile & desktop */}
+      <button
+        ref={buttonRef}
+        type="button"
+        aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
+        aria-expanded={open}
+        aria-controls="menu-popover"
+        onClick={() => setOpen((v) => !v)}
+        style={{ top: topPx }}
+        className={clsx(
+          'fixed right-6 z-50', // fixed so it always stays on screen
+          'h-9 w-9 rounded-full border shadow-sm',
+          'bg-white text-gray-800 hover:bg-gray-50',
+          'flex items-center justify-center',
+          'focus:outline-none focus:ring-2 focus:ring-blue-500',
+        )}
+      >
+        {/* Use literal ≡ glyph per your request */}
+        <span className="text-lg leading-none">≡</span>
+      </button>
+
+      {/* Popover panel next to the button */}
       <div
         id="menu-popover"
         ref={panelRef}
+        style={{ top: topPx }}
         className={clsx(
-          'absolute right-0 mt-2 w-44 rounded-lg border bg-white shadow-md',
-          'ring-1 ring-black/5 overflow-hidden',
+          'fixed right-6 z-50 mt-2',
+          'w-44 rounded-lg border bg-white shadow-md ring-1 ring-black/5 overflow-hidden',
           'transition transform origin-top-right',
-          open ? 'scale-100 opacity-100' : 'pointer-events-none scale-95 opacity-0',
+          open ? 'opacity-100 scale-100' : 'pointer-events-none opacity-0 scale-95',
         )}
       >
         <ul className="py-1">
@@ -130,6 +137,6 @@ export function MenuSection() {
           })}
         </ul>
       </div>
-    </div>
+    </>
   );
 }
