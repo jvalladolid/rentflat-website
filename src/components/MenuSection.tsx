@@ -20,7 +20,7 @@ export function MenuSection() {
   const panelRef = useRef<HTMLDivElement | null>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
-  // Track visible section to highlight active item
+  // Track visible section
   useEffect(() => {
     const elements = SECTIONS.map((s) => document.getElementById(s.id)).filter(
       Boolean,
@@ -42,7 +42,7 @@ export function MenuSection() {
     return () => observerRef.current?.disconnect();
   }, []);
 
-  // Close on outside click or Esc
+  // Close on outside click / Esc
   useEffect(() => {
     if (!open) return;
     const onDocClick = (e: MouseEvent) => {
@@ -68,16 +68,14 @@ export function MenuSection() {
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setOpen(false); // close the popover but keep the button visible
+      setOpen(false);
     }
   };
 
   return (
-    // Sticky bar lives INSIDE the container. It will respect page margins.
     <div className="sticky top-4 z-40">
-      {/* Right-aligned within the same container (so not flush with viewport edge) */}
       <div className="relative flex justify-end">
-        {/* Trigger */}
+        {/* ⬇️ Square trigger with subtle 3D feel */}
         <button
           ref={buttonRef}
           type="button"
@@ -86,22 +84,32 @@ export function MenuSection() {
           aria-controls="menu-popover"
           onClick={() => setOpen((v) => !v)}
           className={clsx(
-            'h-9 w-9 rounded-full border shadow-sm',
-            'bg-white text-gray-800 hover:bg-gray-50',
+            // Size & shape (square)
+            'h-9 w-9 rounded-md',
+            // 3D feel: light gradient + border + outer & inner shadows
+            'bg-linear-to-b from-white to-gray-100',
+            'border border-gray-300',
+            'shadow-sm shadow-gray-300',
+            'hover:shadow hover:from-white hover:to-gray-50',
+            // Give a subtle "press" effect
+            'active:shadow-inner active:from-gray-50 active:to-gray-100',
+            // Text & focus
+            'text-gray-800',
             'flex items-center justify-center',
             'focus:outline-none focus:ring-2 focus:ring-blue-500',
           )}
         >
-          <span className="text-lg leading-none">≡</span>
+          {/* Use plain glyph as requested */}
+          <span className="text-lg leading-none select-none">≡</span>
         </button>
 
-        {/* Popover, positioned to the right of the trigger, within the container */}
+        {/* Popover */}
         <div
           id="menu-popover"
           ref={panelRef}
           className={clsx(
-            'absolute right-0 mt-2 w-44 rounded-lg border bg-white shadow-md',
-            'ring-1 ring-black/5 overflow-hidden',
+            'absolute right-0 mt-2 w-44 rounded-lg bg-white',
+            'border border-gray-200 shadow-lg ring-1 ring-black/5 overflow-hidden',
             'transition transform origin-top-right',
             open ? 'opacity-100 scale-100' : 'pointer-events-none opacity-0 scale-95',
           )}
