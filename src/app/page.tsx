@@ -9,20 +9,16 @@ import { MenuSection } from '@/components/MenuSection';
 export default function Home() {
   return (
     <main className="max-w-5xl mx-auto px-6">
-      <MenuSection />
-
+      <MenuSection /> {/* overlay; doesn't push content */}
       <section id="hero" className="scroll-mt-24">
         <Hero flat={flat} />
       </section>
-
       <section id="gallery" className="scroll-mt-24">
         <Gallery images={flat.images} />
       </section>
-
       <section id="description" className="scroll-mt-24">
         <Description description={flat.description} features={flat.features} />
       </section>
-
       <section id="neighborhood" className="scroll-mt-24">
         <Neighborhood
           services={flat.nearbyServices}

@@ -20,7 +20,7 @@ export function MenuSection() {
   const panelRef = useRef<HTMLDivElement | null>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
-  // Track visible section
+  // Track visible section to highlight active item
   useEffect(() => {
     const elements = SECTIONS.map((s) => document.getElementById(s.id)).filter(
       Boolean,
@@ -68,14 +68,19 @@ export function MenuSection() {
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setOpen(false);
+      setOpen(false); // close panel, button stays visible
     }
   };
 
   return (
-    <div className="sticky top-4 z-40">
-      <div className="relative flex justify-end">
-        {/* ⬇️ Square trigger with subtle 3D feel */}
+    /**
+     * Sticky overlay that takes no layout height, so it doesn't move the Hero down.
+     * Because this wrapper is rendered INSIDE your container (max-w-5xl mx-auto px-6),
+     * the button aligns to the container’s right edge—not the viewport edge.
+     */
+    <div className="sticky top-0 z-40 h-0">
+      <div className="relative">
+        {/* Square 3D-like trigger: absolutely positioned so it doesn't affect layout */}
         <button
           ref={buttonRef}
           type="button"
@@ -84,31 +89,27 @@ export function MenuSection() {
           aria-controls="menu-popover"
           onClick={() => setOpen((v) => !v)}
           className={clsx(
-            // Size & shape (square)
-            'h-9 w-9 rounded-md',
-            // 3D feel: light gradient + border + outer & inner shadows
-            'bg-linear-to-b from-white to-gray-100',
-            'border border-gray-300',
-            'shadow-sm shadow-gray-300',
+            'absolute right-0 translate-y-2', // top-right corner inside container, slight offset from top
+            'h-9 w-9 rounded-md', // square shape
+            'bg-linear-to-b from-white to-gray-100', // subtle 3D gradient
+            'border border-gray-300', // 3D edge
+            'shadow-sm shadow-gray-300', // light outer shadow
             'hover:shadow hover:from-white hover:to-gray-50',
-            // Give a subtle "press" effect
             'active:shadow-inner active:from-gray-50 active:to-gray-100',
-            // Text & focus
-            'text-gray-800',
+            'text-gray-800 select-none',
             'flex items-center justify-center',
             'focus:outline-none focus:ring-2 focus:ring-blue-500',
           )}
         >
-          {/* Use plain glyph as requested */}
-          <span className="text-lg leading-none select-none">≡</span>
+          <span className="text-lg leading-none">≡</span>
         </button>
 
-        {/* Popover */}
+        {/* Popover under the button; also absolute, so no layout shift */}
         <div
           id="menu-popover"
           ref={panelRef}
           className={clsx(
-            'absolute right-0 mt-2 w-44 rounded-lg bg-white',
+            'absolute right-0 translate-y-12 w-44 rounded-lg bg-white',
             'border border-gray-200 shadow-lg ring-1 ring-black/5 overflow-hidden',
             'transition transform origin-top-right',
             open ? 'opacity-100 scale-100' : 'pointer-events-none opacity-0 scale-95',
