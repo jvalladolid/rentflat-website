@@ -2,7 +2,7 @@
 
 export type ServiceType = 'transporte' | 'supermercado' | 'salud' | 'ocio' | 'sports';
 
-export type TravelMode = 'walking' | 'publicTransport';
+export type TravelMode = 'walking' | 'metro';
 
 export interface TravelTime {
   mode: TravelMode;

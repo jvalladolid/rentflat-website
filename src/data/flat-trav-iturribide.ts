@@ -12,15 +12,20 @@ export const flat: Flat = {
     city: 'Bilbao',
   },
   description:
-    'Apartamento espacioso y luminoso en Santutxu, totalmente amueblado y con luz natural. Bien conectado por transporte público. Área tranquila con todos los servicios cercanos.',
+    'Apartamento espacioso y luminoso en Santutxu, totalmente amueblado y con luz natural. Bien conectado por transporte público (metro). Área tranquila con todos los servicios cercanos.',
   features: [
     '2 habitaciones con espacio para estudio',
     'Cocina totalmente equipada: nevera, lavadora, vitrocerámica, horno, microondas',
     'Salón amplio con espacio de comedor, que podría usarse como un tercer espacio para estudio',
     '1 baño completo con ducha',
     'Totalmente amueblado',
-    'Conexión a Internet de alta velocidad (600 Mbps) incluida',
     'Ascensor',
+    'Conexión a Internet de alta velocidad (600 Mbps) incluida',
+    'A 5 minutos a pie de la estación de metro de Santutxu',
+    'A 10 minutos en metro del Hospital de Basurto',
+    'A 12 minutos en metro del Hospital de Cruces',
+    'A 10 minutos a pie de la Plaza Nueva y el Casco Viejo de Bilbao',
+    'Supermercados, tiendas locales, gimnasios y parques cercanos',
   ],
   images: [
     {
@@ -122,7 +127,7 @@ export const flat: Flat = {
       type: 'salud',
       travelTimes: [
         {
-          mode: 'publicTransport',
+          mode: 'metro',
           minutes: 20,
         },
       ],
@@ -137,7 +142,7 @@ export const flat: Flat = {
       type: 'salud',
       travelTimes: [
         {
-          mode: 'publicTransport',
+          mode: 'metro',
           minutes: 25,
         },
       ],
@@ -183,8 +188,8 @@ export const flat: Flat = {
         },
       ],
       location: {
-        lat: 43.25549337303322,
-        lng: -2.9134142184785063,
+        lat: 43.25538083213964,
+        lng: -2.914036532857382,
       },
     },
     {
@@ -212,6 +217,10 @@ export const flat: Flat = {
           minutes: 7,
         },
       ],
+      location: {
+        lat: 43.25521070268187,
+        lng: -2.9175927514449174,
+      },
     },
   ],
   availability: {

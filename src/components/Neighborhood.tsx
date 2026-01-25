@@ -33,8 +33,7 @@ export function Neighborhood({ services }: NeighborhoodProps) {
                 <div className="text-sm text-gray-600">
                   {service.travelTimes.map((t) => (
                     <span key={t.mode} className="mr-3">
-                      {t.mode === 'walking' ? '🚶 Andando' : '🚇 En transporte público'} ·{' '}
-                      {t.minutes} min
+                      {t.mode === 'walking' ? '🚶 Andando' : '🚇 En Metro'} · {t.minutes} min
                     </span>
                   ))}
                 </div>
