@@ -1,18 +1,32 @@
 // src/components/Neighborhood.tsx
-import { NearbyService } from '@/data/flat-dto';
-import { MapSection } from '@/components/MapSection';
+
+'use client';
+
+import dynamic from 'next/dynamic';
+import { NearbyService, ApproxArea } from '@/data/flat-dto';
 import { serviceIconMap, serviceColorMap } from '@/components/Service-Icons';
+
+const MapSection = dynamic(() => import('@/components/MapSection').then((mod) => mod.MapSection), {
+  ssr: false,
+});
 
 interface NeighborhoodProps {
   services: NearbyService[];
+  approximateArea: ApproxArea;
 }
 
-export function Neighborhood({ services }: NeighborhoodProps) {
+export function Neighborhood({ services, approximateArea }: NeighborhoodProps) {
   return (
     <section className="py-12">
       <h2 className="text-2xl font-bold mb-4">SERVICIOS EN LA ZONA</h2>
 
-      <MapSection services={services} />
+      {/* ===================== */}
+      {/*   MAP */}
+      {/* ===================== */}
+
+      <div className="mapWrapper h-105 mb-8">
+        <MapSection services={services} approximateArea={approximateArea} />
+      </div>
 
       {/* ===================== */}
       {/*   SERVICES LIST */}

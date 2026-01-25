@@ -1,181 +1,182 @@
 // src/components/Gallery.tsx
-
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { FlatImage } from '@/data/flat-dto';
+
+import Lightbox from 'yet-another-react-lightbox';
+import Captions from 'yet-another-react-lightbox/plugins/captions';
+import Zoom from 'yet-another-react-lightbox/plugins/zoom';
+import 'yet-another-react-lightbox/styles.css';
 
 interface GalleryProps {
   images: FlatImage[];
 }
 
-export function Gallery({ images }: GalleryProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
+/** Type guards for legacy MediaQueryList methods without using `any`. */
+function hasAddEvent(mq: MediaQueryList): mq is MediaQueryList & {
+  addEventListener: (type: 'change', listener: (e: MediaQueryListEvent) => void) => void;
+} {
+  return typeof mq.addEventListener === 'function';
+}
 
-  const modalRef = useRef<HTMLDivElement>(null);
-  const touchStartX = useRef<number | null>(null);
+function hasRemoveEvent(mq: MediaQueryList): mq is MediaQueryList & {
+  removeEventListener: (type: 'change', listener: (e: MediaQueryListEvent) => void) => void;
+} {
+  return typeof mq.removeEventListener === 'function';
+}
 
-  const open = (index: number) => {
-    setActiveIndex(index);
-    setIsOpen(true);
-  };
+function hasLegacyAdd(mq: MediaQueryList): mq is MediaQueryList & {
+  addListener: (listener: (e: MediaQueryListEvent) => void) => void;
+} {
+  return 'addListener' in mq && typeof (mq as { addListener?: unknown }).addListener === 'function';
+}
 
-  const close = useCallback(() => {
-    setIsOpen(false);
-  }, []);
+function hasLegacyRemove(mq: MediaQueryList): mq is MediaQueryList & {
+  removeListener: (listener: (e: MediaQueryListEvent) => void) => void;
+} {
+  return (
+    'removeListener' in mq &&
+    typeof (mq as { removeListener?: unknown }).removeListener === 'function'
+  );
+}
 
-  const next = useCallback(() => {
-    setActiveIndex((i) => (i + 1) % images.length);
-  }, [images.length]);
+function addMQListener(mq: MediaQueryList, handler: (e: MediaQueryListEvent) => void) {
+  if (hasAddEvent(mq)) {
+    mq.addEventListener('change', handler);
+  } else if (hasLegacyAdd(mq)) {
+    mq.addListener(handler);
+  }
+}
 
-  const prev = useCallback(() => {
-    setActiveIndex((i) => (i - 1 + images.length) % images.length);
-  }, [images.length]);
+function removeMQListener(mq: MediaQueryList, handler: (e: MediaQueryListEvent) => void) {
+  if (hasRemoveEvent(mq)) {
+    mq.removeEventListener('change', handler);
+  } else if (hasLegacyRemove(mq)) {
+    mq.removeListener(handler);
+  }
+}
 
-  /* ---------------- Keyboard ---------------- */
+/**
+ * Detect Tailwind's md breakpoint (>=768px) to switch tile counts:
+ * - mobile: 2x2 (show 4)
+ * - md+: 3 across (show 3)
+ */
+function useIsMdUp() {
+  const getIsMdUp = () =>
+    typeof window !== 'undefined' && window.matchMedia('(min-width: 768px)').matches;
+
+  // Initialize BEFORE the effect runs (prevents setState in effect)
+  const [isMdUp, setIsMdUp] = useState<boolean>(getIsMdUp);
 
   useEffect(() => {
-    if (!isOpen) return;
+    const mq = window.matchMedia('(min-width: 768px)');
+    const onChange = (e: MediaQueryListEvent) => setIsMdUp(e.matches);
 
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') close();
-      if (e.key === 'ArrowRight') next();
-      if (e.key === 'ArrowLeft') prev();
+    // Subscribe only (no initial setState here)
+    addMQListener(mq, onChange);
+    return () => removeMQListener(mq, onChange);
+  }, []);
 
-      // Focus trap
-      if (e.key === 'Tab' && modalRef.current) {
-        const focusable = modalRef.current.querySelectorAll<HTMLElement>('button');
+  return isMdUp;
+}
 
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
+export function Gallery({ images }: GalleryProps) {
+  const isMdUp = useIsMdUp();
 
-        if (e.shiftKey && document.activeElement === first) {
-          e.preventDefault();
-          last.focus();
-        } else if (!e.shiftKey && document.activeElement === last) {
-          e.preventDefault();
-          first.focus();
-        }
-      }
-    };
+  // Visible tiles: 4 on mobile (2x2), 3 on md+ (3 across)
+  const visibleCount = isMdUp ? 3 : 4;
 
-    document.body.style.overflow = 'hidden';
-    window.addEventListener('keydown', onKeyDown);
+  const [isOpen, setIsOpen] = useState(false);
+  const [startIndex, setStartIndex] = useState(0);
 
-    // Initial focus
-    setTimeout(() => {
-      modalRef.current?.querySelector<HTMLElement>('button')?.focus();
-    }, 0);
+  // Prepare slides for the lightbox
+  const slides = useMemo(
+    () =>
+      images.map((img) => ({
+        src: img.src,
+        alt: img.alt,
+        description: img.alt, // Captions plugin reads this
+        // width, height // optional if known to avoid layout shift
+      })),
+    [images],
+  );
 
-    return () => {
-      document.body.style.overflow = '';
-      window.removeEventListener('keydown', onKeyDown);
-    };
-  }, [isOpen, close, next, prev]);
+  const maxToShow = Math.min(visibleCount, images.length);
+  const remaining = images.length - maxToShow;
 
-  /* ---------------- Touch (Swipe) ---------------- */
-
-  const onTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
-  };
-
-  const onTouchEnd = (e: React.TouchEvent) => {
-    if (touchStartX.current === null) return;
-
-    const deltaX = e.changedTouches[0].clientX - touchStartX.current;
-
-    if (Math.abs(deltaX) > 50) {
-      if (deltaX > 0) {
-        prev();
-      } else {
-        next();
-      }
-    }
-
-    touchStartX.current = null;
+  const openAt = (index: number) => {
+    setStartIndex(index);
+    setIsOpen(true);
   };
 
   return (
     <section className="py-12">
       <h2 className="text-2xl font-bold mb-4">GALERÍA DE IMÁGENES</h2>
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {images.map((img, index) => (
-          <button
-            key={img.src}
-            onClick={() => open(index)}
-            className="relative w-full h-64 overflow-hidden rounded focus:outline-none"
-          >
-            <Image
-              src={img.src}
-              alt={img.alt}
-              fill
-              className="object-cover"
-              sizes="(max-width: 640px) 100vw, 50vw"
-            />
-          </button>
-        ))}
+      {/* Grid: 2×2 on mobile, 3-across on md+ */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {images.slice(0, maxToShow).map((img, index) => {
+          const isOverflowTile = remaining > 0 && index === maxToShow - 1;
+
+          return (
+            <button
+              key={img.src}
+              onClick={() => openAt(index)}
+              className="relative w-full aspect-square overflow-hidden rounded focus:outline-none group"
+              aria-label={isOverflowTile ? `Ver +${remaining} imágenes` : img.alt}
+            >
+              <Image
+                src={img.src}
+                alt={img.alt}
+                fill
+                sizes="(max-width: 768px) 50vw, (min-width: 768px) 33vw"
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                priority={index === 0}
+              />
+
+              {/* Semi-transparent +N overlay on the last visible tile */}
+              {isOverflowTile && (
+                <div
+                  className="absolute inset-0 bg-black/50 flex items-center justify-center"
+                  aria-hidden="true"
+                >
+                  <span className="text-white text-xl font-semibold">+{remaining}</span>
+                </div>
+              )}
+            </button>
+          );
+        })}
       </div>
 
       {/* Lightbox */}
       {isOpen && (
-        <div
-          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center"
-          onClick={close}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Image gallery"
-        >
-          <div
-            ref={modalRef}
-            className="relative w-full max-w-5xl h-[80vh]"
-            onClick={(e) => e.stopPropagation()}
-            onTouchStart={onTouchStart}
-            onTouchEnd={onTouchEnd}
-          >
-            <Image
-              src={images[activeIndex].src}
-              alt={images[activeIndex].alt}
-              fill
-              className="object-contain"
-              priority
-            />
-
-            {/* Counter */}
-            <span className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm">
-              {activeIndex + 1} / {images.length}
-            </span>
-
-            {/* Close */}
-            <button
-              onClick={close}
-              className="absolute top-4 right-4 text-white text-3xl"
-              aria-label="Close"
-            >
-              ×
-            </button>
-
-            {/* Navigation */}
-            <button
-              onClick={prev}
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl"
-              aria-label="Previous image"
-            >
-              ‹
-            </button>
-
-            <button
-              onClick={next}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl"
-              aria-label="Next image"
-            >
-              ›
-            </button>
-          </div>
-        </div>
+        <Lightbox
+          open={isOpen}
+          close={() => setIsOpen(false)}
+          slides={slides}
+          index={startIndex}
+          plugins={[Captions, Zoom]}
+          controller={{ closeOnBackdropClick: true }}
+          animation={{ fade: 250 }}
+          carousel={{ finite: false }} // loop
+          /* Traducciones/ARIA en español */
+          labels={{
+            Next: 'Siguiente',
+            Previous: 'Anterior',
+            Close: 'Cerrar',
+            'Zoom in': 'Acercar',
+            'Zoom out': 'Alejar',
+            // Si añadimos más plugins más adelante:
+            // EnterFullscreen: 'Pantalla completa',
+            // ExitFullscreen: 'Salir de pantalla completa',
+            // Play: 'Reproducir',
+            // Pause: 'Pausar',
+            // Download: 'Descargar',
+            // Thumbnails: 'Miniaturas',
+          }}
+        />
       )}
     </section>
   );

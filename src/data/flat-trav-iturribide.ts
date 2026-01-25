@@ -10,6 +10,14 @@ export const flat: Flat = {
   location: {
     area: 'Santutxu',
     city: 'Bilbao',
+    approximateArea: {
+      kind: 'circle',
+      center: {
+        lat: 43.255083930270054,
+        lng: -2.9152648816069195,
+      },
+      radiusMeters: 200,
+    },
   },
   description:
     'Apartamento espacioso y luminoso en Santutxu, totalmente amueblado y con luz natural. Bien conectado por transporte público (metro). Área tranquila con todos los servicios cercanos.',
@@ -122,7 +130,7 @@ export const flat: Flat = {
       },
     },
     {
-      id: 'hospital',
+      id: 'hospital-basurto',
       name: 'Hospital de Basurto',
       type: 'salud',
       travelTimes: [
@@ -137,7 +145,7 @@ export const flat: Flat = {
       },
     },
     {
-      id: 'hospital',
+      id: 'hospital-cruces',
       name: 'Hospital de Cruces',
       type: 'salud',
       travelTimes: [
@@ -167,7 +175,7 @@ export const flat: Flat = {
       },
     },
     {
-      id: 'supermercado',
+      id: 'tiendas',
       name: 'Fruterías, Carnicerías y Tiendas Locales',
       type: 'supermercado',
       travelTimes: [
@@ -203,8 +211,8 @@ export const flat: Flat = {
         },
       ],
       location: {
-        lat: 43.2556029688754,
-        lng: -2.9132292544629084,
+        lat: 43.255597688433745,
+        lng: -2.9205108802551076,
       },
     },
     {

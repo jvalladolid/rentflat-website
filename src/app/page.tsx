@@ -12,7 +12,10 @@ export default function Home() {
       <Hero flat={flat} />
       <Gallery images={flat.images} />
       <Description description={flat.description} features={flat.features} />
-      <Neighborhood services={flat.nearbyServices} />
+      <Neighborhood
+        services={flat.nearbyServices}
+        approximateArea={flat.location.approximateArea}
+      />
     </main>
   );
 }

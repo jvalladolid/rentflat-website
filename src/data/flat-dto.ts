@@ -25,6 +25,11 @@ export interface FlatImage {
   alt: string;
 }
 
+export type ApproxArea =
+  | { kind: 'circle'; center: { lat: number; lng: number }; radiusMeters: number }
+  | { kind: 'rectangle'; bounds: [[number, number], [number, number]] } // [[southWestLat, southWestLng], [northEastLat, northEastLng]]
+  | { kind: 'polygon'; coordinates: [number, number][] }; // [lat, lng] ring (no need to close)
+
 export interface Flat {
   title: string;
   subtitle?: string;
@@ -39,6 +44,7 @@ export interface Flat {
       lat: number;
       lng: number;
     };
+    approximateArea: ApproxArea;
   };
   description: string;
   features: string[];
