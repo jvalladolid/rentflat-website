@@ -47,7 +47,23 @@ function divIconForServiceType(type: ServiceType): L.DivIcon {
   let innerHtml = '';
 
   if (type === 'transporte') {
-    innerHtml = METRO_BILBAO_ICON_SRC;
+    // PNG branch: well‑formed HTML string, no entities, no dangling quotes
+    innerHtml = `<img
+        src="/icons/MetroBilbao.png"',
+      ' alt=""',
+      ' width="18"',
+      ' height="p" />`;
+    const Lucide = IconCmp as unknown as LucideIcon;
+    const svgMarkup = ReactDOMServer.renderToStaticMarkup(
+      React.createElement(Lucide, { size: 18, strokeWidth: 2 }),
+    );
+    innerHtml = [
+      '<span style="color:',
+      color,
+      ';display:inline-flex;align-items:center;justify-content:center;">',
+      svgMarkup,
+      '</span>',
+    ].join('');
   } else if (type === 'salud') {
     innerHtml = OSAKIDETZA_ICON_SRC;
   } else if (type === 'pharmacy') {
