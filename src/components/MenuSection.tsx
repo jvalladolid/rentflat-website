@@ -89,7 +89,7 @@ export function MenuSection() {
           aria-controls="menu-popover"
           onClick={() => setOpen((v) => !v)}
           className={clsx(
-            'absolute right-0 translate-y-2', // top-right corner inside container, slight offset from top
+            'absolute right-0 translate-y-3', // top-right corner inside container, slight offset from top
             'h-9 w-9 rounded-md', // square shape
             'bg-linear-to-b from-white to-gray-100', // subtle 3D gradient
             'border border-gray-300', // 3D edge
