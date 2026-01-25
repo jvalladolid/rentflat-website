@@ -47,9 +47,8 @@ function divIconForServiceType(type: ServiceType): L.DivIcon {
   let innerHtml = '';
 
   if (type === 'transporte') {
-    // PNG branch: well‑formed HTML string, no entities, no dangling quotes
     innerHtml = `<img
-        src="/icons/MetroBilbao.png"',
+        src="METRO_BILBAO_ICON_SRC"',
       ' alt=""',
       ' width="18"',
       ' height="p" />`;
@@ -65,11 +64,56 @@ function divIconForServiceType(type: ServiceType): L.DivIcon {
       '</span>',
     ].join('');
   } else if (type === 'salud') {
-    innerHtml = OSAKIDETZA_ICON_SRC;
+    innerHtml = `<img
+        src="OSAKIDETZA_ICON_SRC"',
+      ' alt=""',
+      ' width="18"',
+      ' height="p" />`;
+    const Lucide = IconCmp as unknown as LucideIcon;
+    const svgMarkup = ReactDOMServer.renderToStaticMarkup(
+      React.createElement(Lucide, { size: 18, strokeWidth: 2 }),
+    );
+    innerHtml = [
+      '<span style="color:',
+      color,
+      ';display:inline-flex;align-items:center;justify-content:center;">',
+      svgMarkup,
+      '</span>',
+    ].join('');
   } else if (type === 'pharmacy') {
-    innerHtml = PHARMACY_ICON_SRC;
+    innerHtml = `<img
+        src="PHARMACY_ICON_SRC"',
+      ' alt=""',
+      ' width="18"',
+      ' height="p" />`;
+    const Lucide = IconCmp as unknown as LucideIcon;
+    const svgMarkup = ReactDOMServer.renderToStaticMarkup(
+      React.createElement(Lucide, { size: 18, strokeWidth: 2 }),
+    );
+    innerHtml = [
+      '<span style="color:',
+      color,
+      ';display:inline-flex;align-items:center;justify-content:center;">',
+      svgMarkup,
+      '</span>',
+    ].join('');
   } else if (type === 'sports') {
-    innerHtml = GYM_ICON_SRC;
+    innerHtml = `<img
+        src="GYM_ICON_SRC"',
+      ' alt=""',
+      ' width="18"',
+      ' height="p" />`;
+    const Lucide = IconCmp as unknown as LucideIcon;
+    const svgMarkup = ReactDOMServer.renderToStaticMarkup(
+      React.createElement(Lucide, { size: 18, strokeWidth: 2 }),
+    );
+    innerHtml = [
+      '<span style="color:',
+      color,
+      ';display:inline-flex;align-items:center;justify-content:center;">',
+      svgMarkup,
+      '</span>',
+    ].join('');
   } else {
     // Lucide icon: render SVG to string and apply color via currentColor
     const Lucide = IconCmp as unknown as LucideIcon;
