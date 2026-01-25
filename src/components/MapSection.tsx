@@ -206,7 +206,6 @@ export function MapSection({ services, approximateArea }: MapSectionProps) {
               <Marker key={`${service.id}-${lat}-${lng}`} position={[lat, lng]} icon={icon}>
                 <Popup>
                   <strong>{service.name}</strong>
-                  <div>Tipo: {service.type}</div>
                   {service.travelTimes?.length ? (
                     <ul style={{ paddingLeft: 16, margin: '6px 0 0' }}>
                       {service.travelTimes.map((t, i) => (
