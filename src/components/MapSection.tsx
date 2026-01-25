@@ -19,6 +19,10 @@ const defaultIcon = new L.Icon.Default({
 
 L.Marker.prototype.options.icon = defaultIcon;
 
+/** ---- Icons for the Popup ---- */
+const WALKING_ICON_SRC = '/icons/Andando.png';
+const METRO_ICON_SRC = '/icons/MetroBilbao.png';
+
 // SVG pin template (Leaflet-like)
 function svgPin(color: string) {
   return `
@@ -152,9 +156,26 @@ export function MapSection({ services, approximateArea }: MapSectionProps) {
                   {service.travelTimes?.length ? (
                     <ul style={{ paddingLeft: 16, margin: '6px 0 0' }}>
                       {service.travelTimes.map((t, i) => (
-                        <li key={i}>
-                          {t.mode === 'walking' ? '🚶 Andando' : '🚇 Transporte público'} ·{' '}
-                          {t.minutes} min
+                        <li
+                          key={i}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 6,
+                          }}
+                        >
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={t.mode === 'walking' ? WALKING_ICON_SRC : METRO_ICON_SRC}
+                            alt={t.mode === 'walking' ? 'Andando' : 'Transporte público'}
+                            width={14}
+                            height={14}
+                            style={{ opacity: 0.9 }}
+                          />
+                          <span>
+                            {t.mode === 'walking' ? 'Andando' : 'Transporte público'} · {t.minutes}{' '}
+                            min
+                          </span>
                         </li>
                       ))}
                     </ul>
