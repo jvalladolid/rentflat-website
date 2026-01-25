@@ -52,81 +52,37 @@ function divIconForServiceType(type: ServiceType): L.DivIcon {
       ' alt=""',
       ' width="18"',
       ' height="p" />`;
-    const Lucide = IconCmp as unknown as LucideIcon;
-    const svgMarkup = ReactDOMServer.renderToStaticMarkup(
-      React.createElement(Lucide, { size: 18, strokeWidth: 2 }),
-    );
-    innerHtml = [
-      '<span style="color:',
-      color,
-      ';display:inline-flex;align-items:center;justify-content:center;">',
-      svgMarkup,
-      '</span>',
-    ].join('');
   } else if (type === 'salud') {
     innerHtml = `<img
         src="OSAKIDETZA_ICON_SRC"',
       ' alt=""',
       ' width="18"',
       ' height="p" />`;
-    const Lucide = IconCmp as unknown as LucideIcon;
-    const svgMarkup = ReactDOMServer.renderToStaticMarkup(
-      React.createElement(Lucide, { size: 18, strokeWidth: 2 }),
-    );
-    innerHtml = [
-      '<span style="color:',
-      color,
-      ';display:inline-flex;align-items:center;justify-content:center;">',
-      svgMarkup,
-      '</span>',
-    ].join('');
   } else if (type === 'pharmacy') {
     innerHtml = `<img
         src="PHARMACY_ICON_SRC"',
       ' alt=""',
       ' width="18"',
       ' height="p" />`;
-    const Lucide = IconCmp as unknown as LucideIcon;
-    const svgMarkup = ReactDOMServer.renderToStaticMarkup(
-      React.createElement(Lucide, { size: 18, strokeWidth: 2 }),
-    );
-    innerHtml = [
-      '<span style="color:',
-      color,
-      ';display:inline-flex;align-items:center;justify-content:center;">',
-      svgMarkup,
-      '</span>',
-    ].join('');
   } else if (type === 'sports') {
     innerHtml = `<img
         src="GYM_ICON_SRC"',
       ' alt=""',
       ' width="18"',
       ' height="p" />`;
-    const Lucide = IconCmp as unknown as LucideIcon;
-    const svgMarkup = ReactDOMServer.renderToStaticMarkup(
-      React.createElement(Lucide, { size: 18, strokeWidth: 2 }),
-    );
-    innerHtml = [
-      '<span style="color:',
-      color,
-      ';display:inline-flex;align-items:center;justify-content:center;">',
-      svgMarkup,
-      '</span>',
-    ].join('');
-  } else {
-    // Lucide icon: render SVG to string and apply color via currentColor
-    const Lucide = IconCmp as unknown as LucideIcon;
-    const svgMarkup = ReactDOMServer.renderToStaticMarkup(
-      React.createElement(Lucide, { size: 18, strokeWidth: 2 }),
-    );
-    innerHtml =
-      '<span style="color:' +
-      color +
-      ';display:inline-flex;align-items:center;justify-content:center;">' +
-      svgMarkup +
-      '</span>';
   }
+
+  const Lucide = IconCmp as unknown as LucideIcon;
+  const svgMarkup = ReactDOMServer.renderToStaticMarkup(
+    React.createElement(Lucide, { size: 18, strokeWidth: 2 }),
+  );
+  innerHtml = [
+    '<span style="color:',
+    color,
+    ';display:inline-flex;align-items:center;justify-content:center;">',
+    svgMarkup,
+    '</span>',
+  ].join('');
 
   // Outer badge: small square, white, subtle border + shadow
   const outerStyle = [
