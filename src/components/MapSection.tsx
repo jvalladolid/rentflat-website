@@ -8,7 +8,7 @@ import type { NearbyService, ApproxArea } from '@/data/flat-dto';
 import { useEffect, useMemo } from 'react';
 import { Circle, Rectangle, Polygon } from 'react-leaflet';
 import L, { LatLngBoundsExpression, LatLngTuple } from 'leaflet';
-import { serviceColorHexMap } from '@/components/Service-Icons';
+import { ServiceColorHexMap } from '@/components/Service-Icons';
 
 /** ---- Configure Leaflet default icon paths (Next.js friendly) ---- */
 const defaultIcon = new L.Icon.Default({
@@ -145,7 +145,7 @@ export function MapSection({ services, approximateArea }: MapSectionProps) {
           {/* Markers: use the default Leaflet pin (no custom icon prop) */}
           {servicesWithLocation.map((service) => {
             const { lat, lng } = service.location!;
-            const color = serviceColorHexMap[service.type] ?? '#2563eb';
+            const color = ServiceColorHexMap[service.type] ?? '#2563eb';
             const icon = divIconForColor(color);
 
             return (

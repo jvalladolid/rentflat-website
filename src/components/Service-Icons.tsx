@@ -1,15 +1,36 @@
-import { Train, ShoppingBasket, Stethoscope, Coffee, Dumbbell } from 'lucide-react';
+// src/components/Service-Icons.tsx
+
+import type { ComponentType } from 'react';
+import Image from 'next/image';
+import { ShoppingBasket, Stethoscope, Coffee, Dumbbell } from 'lucide-react';
 import { ServiceType } from '@/data/flat-dto';
 
-export const serviceIconMap: Record<ServiceType, React.ComponentType<{ className?: string }>> = {
-  transporte: Train,
+/**
+ * Custom Metro Bilbao PNG-based "icon". We keep the same API as Lucide icons:
+ * accepts an optional `className` so the caller can pass Tailwind sizes (e.g., h-5 w-5).
+ * Note: PNGs won't respond to text color classes; size classes still work.
+ */
+export const MetroBilbaoIcon = ({ className }: { className?: string }) => {
+  return (
+    <Image
+      src="/icons/MetroBilbao.png"
+      alt="Metro Bilbao"
+      width={20}
+      height={20}
+      className={className}
+    />
+  );
+};
+
+export const ServiceIconMap: Record<ServiceType, ComponentType<{ className?: string }>> = {
+  transporte: MetroBilbaoIcon,
   supermercado: ShoppingBasket,
   salud: Stethoscope,
   ocio: Coffee,
   sports: Dumbbell,
 };
 
-export const serviceColorMap: Record<ServiceType, string> = {
+export const ServiceColorMap: Record<ServiceType, string> = {
   transporte: 'text-blue-600',
   supermercado: 'text-green-600',
   salud: 'text-red-600',
@@ -18,7 +39,7 @@ export const serviceColorMap: Record<ServiceType, string> = {
 };
 
 // Tailwind v3 default palette approximations for *-600 shades:
-export const serviceColorHexMap: Record<ServiceType, string> = {
+export const ServiceColorHexMap: Record<ServiceType, string> = {
   transporte: '#2563eb', // blue-600
   supermercado: '#16a34a', // green-600
   salud: '#dc2626', // red-600
