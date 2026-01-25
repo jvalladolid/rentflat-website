@@ -4,6 +4,7 @@ import type { ComponentType } from 'react';
 import Image from 'next/image';
 import { ShoppingBasket, Stethoscope, Coffee, Dumbbell } from 'lucide-react';
 import { ServiceType } from '@/data/flat-dto';
+import clsx from 'clsx';
 
 /**
  * Custom Metro Bilbao PNG-based "icon". We keep the same API as Lucide icons:
@@ -12,13 +13,15 @@ import { ServiceType } from '@/data/flat-dto';
  */
 export const MetroBilbaoIcon = ({ className }: { className?: string }) => {
   return (
-    <Image
-      src="/icons/MetroBilbao.png"
-      alt="Metro Bilbao"
-      width={24}
-      height={20}
-      className={className}
-    />
+    <span className={clsx('relative inline-block h-5 w-5 align-middle', className)}>
+      <Image
+        src="/icons/MetroBilbao.png"
+        alt="Metro Bilbao"
+        fill
+        sizes="20px"
+        className="object-contain"
+      />
+    </span>
   );
 };
 
