@@ -3,8 +3,12 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 import { NearbyService, ApproxArea } from '@/data/flat-dto';
 import { serviceIconMap, serviceColorMap } from '@/components/Service-Icons';
+
+const WALKING_ICON_SRC = '/icons/Andando.png';
+const METRO_ICON_SRC = '/icons/MetroBilbao.png';
 
 const MapSection = dynamic(() => import('@/components/MapSection').then((mod) => mod.MapSection), {
   ssr: false,
@@ -46,8 +50,17 @@ export function Neighborhood({ services, approximateArea }: NeighborhoodProps) {
 
                 <div className="text-sm text-gray-600">
                   {service.travelTimes.map((t) => (
-                    <span key={t.mode} className="mr-3">
-                      {t.mode === 'walking' ? '🚶 Andando' : '🚇 En Metro'} · {t.minutes} min
+                    <span key={t.mode} className="mr-4 inline-flex items-center gap-1">
+                      <Image
+                        src={t.mode === 'walking' ? WALKING_ICON_SRC : METRO_ICON_SRC}
+                        alt={t.mode === 'walking' ? 'Andando' : 'En Metro'}
+                        width={16}
+                        height={16}
+                        className="opacity-90"
+                      />
+                      <span>
+                        {t.mode === 'walking' ? 'Andando' : 'En Metro'} · {t.minutes} min
+                      </span>
                     </span>
                   ))}
                 </div>
