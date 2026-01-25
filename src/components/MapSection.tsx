@@ -4,11 +4,14 @@
 
 import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
-import type { NearbyService, ApproxArea } from '@/data/flat-dto';
+import type { NearbyService, ApproxArea, ServiceType } from '@/data/flat-dto';
 import { useEffect, useMemo } from 'react';
 import { Circle, Rectangle, Polygon } from 'react-leaflet';
 import L, { LatLngBoundsExpression, LatLngTuple } from 'leaflet';
-import { ServiceColorHexMap } from '@/components/Service-Icons';
+import { ServiceIconMap, ServiceColorHexMap } from '@/components/Service-Icons';
+import React from 'react';
+import ReactDOMServer from 'react-dom/server';
+import type { LucideIcon } from 'lucide-react';
 
 /** ---- Configure Leaflet default icon paths (Next.js friendly) ---- */
 const defaultIcon = new L.Icon.Default({
@@ -20,34 +23,72 @@ const defaultIcon = new L.Icon.Default({
 L.Marker.prototype.options.icon = defaultIcon;
 
 /** ---- Icons for the Popup ---- */
+const METRO_BILBAO_ICON_SRC = '/icons/MetroBilbao.png';
+const OSAKIDETZA_ICON_SRC = '/icons/Osakidetza.png';
+const PHARMACY_ICON_SRC = '/icons/Pharmacy.png';
+const GYM_ICON_SRC = '/icons/Gym.png';
+
+/** ---- Icons for the Popup ---- */
 const WALKING_ICON_SRC = '/icons/Andando.png';
-const METRO_ICON_SRC = '/icons/MetroBilbao.png';
+const METRO_ICON_SRC = METRO_BILBAO_ICON_SRC;
 
-// SVG pin template (Leaflet-like)
-function svgPin(color: string) {
-  return `
-    <svg width="25" height="41" viewBox="0 0 25 41" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12.5 0C5.6 0 0 5.6 0 12.5C0 22 12.5 41 12.5 41C12.5 41 25 22 25 12.5C25 5.6 19.4 0 12.5 0Z"
-            fill="${color}" stroke="white" stroke-width="2"/>
-      <circle cx="12.5" cy="12" r="4.5" fill="white"/>
-    </svg>
-  `;
-}
+// ===== Service icon markers =====
+// Cache by service type so we don’t re-create icons
+const serviceDivIconCache = new Map<ServiceType, L.DivIcon>();
 
-const divIconCache = new Map<string, L.DivIcon>();
-function divIconForColor(color: string) {
-  const cached = divIconCache.get(color);
+function divIconForServiceType(type: ServiceType): L.DivIcon {
+  const cached = serviceDivIconCache.get(type);
   if (cached) return cached;
 
+  const IconCmp = ServiceIconMap[type];
+  const color = ServiceColorHexMap[type] ?? '#2563eb';
+
+  // Build the inner icon markup WITHOUT using `any`
+  let innerHtml = '';
+
+  if (type === 'transporte') {
+    innerHtml = METRO_BILBAO_ICON_SRC;
+  } else if (type === 'salud') {
+    innerHtml = OSAKIDETZA_ICON_SRC;
+  } else if (type === 'pharmacy') {
+    innerHtml = PHARMACY_ICON_SRC;
+  } else if (type === 'sports') {
+    innerHtml = GYM_ICON_SRC;
+  } else {
+    // Lucide icon: render SVG to string and apply color via currentColor
+    const Lucide = IconCmp as unknown as LucideIcon;
+    const svgMarkup = ReactDOMServer.renderToStaticMarkup(
+      React.createElement(Lucide, { size: 18, strokeWidth: 2 }),
+    );
+    innerHtml =
+      '<span style="color:' +
+      color +
+      ';display:inline-flex;align-items:center;justify-content:center;">' +
+      svgMarkup +
+      '</span>';
+  }
+
+  // Outer badge: small square, white, subtle border + shadow
+  const outerStyle = [
+    'width:28px;height:28px',
+    'background:#ffffff',
+    'border:1px solid #e5e7eb', // gray-200
+    'border-radius:6px', // change to 0 for a perfect square
+    'box-shadow:0 2px 6px rgba(0,0,0,.18)',
+    'display:flex;align-items:center;justify-content:center',
+  ].join(';');
+
+  const html = '<div style="' + outerStyle + '">' + innerHtml + '</div>';
+
   const icon = L.divIcon({
-    className: 'custom-pin',
-    html: svgPin(color),
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
+    className: '', // avoid Leaflet defaults
+    html,
+    iconSize: [28, 28],
+    iconAnchor: [14, 14], // center on point
+    popupAnchor: [0, -14], // popup above badge
   });
 
-  divIconCache.set(color, icon);
+  serviceDivIconCache.set(type, icon);
   return icon;
 }
 
@@ -142,12 +183,9 @@ export function MapSection({ services, approximateArea }: MapSectionProps) {
             </>
           )}
 
-          {/* Markers: use the default Leaflet pin (no custom icon prop) */}
           {servicesWithLocation.map((service) => {
             const { lat, lng } = service.location!;
-            const color = ServiceColorHexMap[service.type] ?? '#2563eb';
-            const icon = divIconForColor(color);
-
+            const icon = divIconForServiceType(service.type);
             return (
               <Marker key={`${service.id}-${lat}-${lng}`} position={[lat, lng]} icon={icon}>
                 <Popup>
@@ -156,14 +194,7 @@ export function MapSection({ services, approximateArea }: MapSectionProps) {
                   {service.travelTimes?.length ? (
                     <ul style={{ paddingLeft: 16, margin: '6px 0 0' }}>
                       {service.travelTimes.map((t, i) => (
-                        <li
-                          key={i}
-                          style={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 6,
-                          }}
-                        >
+                        <li key={i} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={t.mode === 'walking' ? WALKING_ICON_SRC : METRO_ICON_SRC}
