@@ -42,6 +42,8 @@ export function Gallery({ images }: GalleryProps) {
           Previous: 'Anterior',
           'Zoom in': 'Acercar',
           'Zoom out': 'Alejar',
+          'Reset zoom': 'Restablecer zoom',
+          'Enter Fullscreen': 'Pantalla completa',
           'Exit Fullscreen': 'Salir de pantalla completa',
         }}
       />
