@@ -11,17 +11,12 @@ export function Hero({ flat }: HeroProps) {
       {/* Title */}
       <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{flat.title}</h1>
 
-      {/* Subtitle */}
+      {/* Subtitle + Location */}
       {flat.subtitle && (
         <p className="text-gray-600 text-lg">
           {flat.subtitle} - {flat.location.area}, {flat.location.city}
         </p>
       )}
-
-      {/* Location */}
-      <p className="text-gray-500">
-        {flat.location.area}, {flat.location.city}
-      </p>
 
       {/* Price */}
       <div className="flex items-end gap-2">
