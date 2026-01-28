@@ -36,7 +36,7 @@ export interface Flat {
   numberOfRooms: number;
   surfaceM2: number;
   floorDesc: string;
-  price: string;
+  price: number;
   location: {
     area: string;
     city: string;
