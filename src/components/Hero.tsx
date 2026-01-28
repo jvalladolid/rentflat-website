@@ -12,7 +12,11 @@ export function Hero({ flat }: HeroProps) {
       <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{flat.title}</h1>
 
       {/* Subtitle */}
-      {flat.subtitle && <p className="text-gray-600 text-lg">{flat.subtitle}</p>}
+      {flat.subtitle && (
+        <p className="text-gray-600 text-lg">
+          {flat.subtitle} - {flat.location.area}, {flat.location.city}
+        </p>
+      )}
 
       {/* Location */}
       <p className="text-gray-500">
@@ -22,7 +26,7 @@ export function Hero({ flat }: HeroProps) {
       {/* Price */}
       <div className="flex items-end gap-2">
         <span className="text-3xl md:text-4xl font-semibold text-blue-700">{flat.price}</span>
-        <span className="text-gray-500 text-base">/mes</span>
+        <span className="text-gray-500 text-base">€/mes</span>
       </div>
 
       {/* Badges */}

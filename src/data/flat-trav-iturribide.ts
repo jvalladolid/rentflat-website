@@ -3,7 +3,7 @@ import { Flat } from './flat-dto';
 export const flat: Flat = {
   title: 'VIVIENDA DE 2 HABITACIONES EN SANTUTXU',
   subtitle: 'Ideal para residentes de medicina y de enfermería',
-  price: '1.200 €/mes',
+  price: '1.200',
   numberOfRooms: 2,
   surfaceM2: 81,
   floorDesc: '4º exterior con ascensor',
