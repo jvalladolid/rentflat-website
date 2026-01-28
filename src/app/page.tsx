@@ -10,16 +10,16 @@ export default function Home() {
   return (
     <main className="max-w-5xl mx-auto px-6">
       <MenuSection /> {/* overlay; doesn't push content */}
-      <section id="hero" className="scroll-mt-24">
+      <section id="hero">
         <Hero flat={flat} />
       </section>
-      <section id="gallery" className="scroll-mt-24">
+      <section id="gallery">
         <Gallery images={flat.images} />
       </section>
-      <section id="description" className="scroll-mt-24">
+      <section id="description">
         <Description description={flat.description} features={flat.features} />
       </section>
-      <section id="neighborhood" className="scroll-mt-24">
+      <section id="neighborhood">
         <Neighborhood
           services={flat.nearbyServices}
           approximateArea={flat.location.approximateArea}

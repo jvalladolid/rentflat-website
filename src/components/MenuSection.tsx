@@ -35,7 +35,7 @@ export function MenuSection() {
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
         if (visible[0]) setActive(visible[0].target.id);
       },
-      { root: null, rootMargin: '0px 0px -40% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] },
+      { root: null, rootMargin: '-1px 0px -90% 0px', threshold: [0, 0.25, 0.5, 0.75, 1] },
     );
 
     elements.forEach((el) => observerRef.current!.observe(el));
