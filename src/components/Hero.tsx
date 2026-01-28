@@ -31,24 +31,24 @@ export function Hero({ flat }: HeroProps) {
   // - es-ES locale gives thousands '.' and decimals ','
   // - Up to 2 decimals if present, no unnecessary trailing zeros
   const priceValue = flat.price as number | string;
-  const formattedPrice = (() => {
+  const formattedNumeric = (() => {
     if (typeof priceValue === 'number') {
-      return `${priceValue.toLocaleString('es-ES', {
+      return priceValue.toLocaleString('es-ES', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 2,
         useGrouping: true,
-      })} €/mes`;
+      });
     }
     const n = Number(priceValue);
     if (!Number.isNaN(n)) {
-      return `${n.toLocaleString('es-ES', {
+      return n.toLocaleString('es-ES', {
         minimumFractionDigits: 0,
         maximumFractionDigits: 2,
         useGrouping: true,
-      })} €/mes`;
+      });
     }
-    // Non-numeric string → show as-is with suffix
-    return `${priceValue} €/mes`;
+    // Non-numeric string → show as-is (keeps your own formatting if present)
+    return String(priceValue);
   })();
 
   const floorDesc = flat.floorDesc ?? '';
@@ -86,11 +86,12 @@ export function Hero({ flat }: HeroProps) {
             </p>
           )}
 
-          {/* Price */}
-          <div className="pt-2">
+          {/* Price: main number bold, €/mes smaller & softer */}
+          <div className="pt-2 flex items-end gap-2">
             <span className="text-4xl lg:text-5xl font-semibold text-blue-700 dark:text-blue-400">
-              {formattedPrice}
+              {formattedNumeric}
             </span>
+            <span className="text-base md:text-lg text-gray-500 dark:text-gray-400">€/mes</span>
           </div>
 
           {/* Badges */}
