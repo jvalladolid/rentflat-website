@@ -7,16 +7,36 @@ interface HeroProps {
 
 export function Hero({ flat }: HeroProps) {
   return (
-    <section className="py-12">
-      <h1 className="text-4xl font-bold">{flat.title}</h1>
-      {flat.subtitle && <p className="mt-2 text-gray-600">{flat.subtitle}</p>}
-      <p className="mt-1 text-gray-500">
+    <header className="py-8 space-y-4 border-b border-gray-200">
+      {/* Title */}
+      <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{flat.title}</h1>
+
+      {/* Subtitle */}
+      {flat.subtitle && <p className="text-gray-600 text-lg">{flat.subtitle}</p>}
+
+      {/* Location */}
+      <p className="text-gray-500">
         {flat.location.area}, {flat.location.city}
       </p>
-      <p className="mt-4 text-2xl font-bold">{flat.price}</p>
-      <p className="mt-1 text-xl text-gray-500">
-        {flat.numberOfRooms} hab. | {flat.surfaceM2} m² | {flat.floorDesc}
-      </p>
-    </section>
+
+      {/* Price */}
+      <div className="flex items-end gap-2">
+        <span className="text-3xl md:text-4xl font-semibold text-blue-700">{flat.price}</span>
+        <span className="text-gray-500 text-base">/mes</span>
+      </div>
+
+      {/* Badges */}
+      <div className="flex flex-wrap gap-2 pt-2">
+        <span className="px-3 py-1 rounded-md bg-blue-50 text-blue-700 text-sm font-medium">
+          {flat.numberOfRooms} hab.
+        </span>
+        <span className="px-3 py-1 rounded-md bg-emerald-50 text-emerald-700 text-sm font-medium">
+          {flat.surfaceM2} m²
+        </span>
+        <span className="px-3 py-1 rounded-md bg-amber-50 text-amber-700 text-sm font-medium">
+          {flat.floorDesc}
+        </span>
+      </div>
+    </header>
   );
 }
