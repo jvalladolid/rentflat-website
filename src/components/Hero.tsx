@@ -7,7 +7,7 @@ interface HeroProps {
 
 export function Hero({ flat }: HeroProps) {
   return (
-    <header className="py-8 space-y-4 border-b border-gray-200">
+    <header className="py-10 px-6 rounded-xl bg-white/80 backdrop-blur-md shadow-sm">
       {/* Title */}
       <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-gray-900">{flat.title}</h1>
 
