@@ -56,16 +56,8 @@ export function Hero({ flat }: HeroProps) {
   return (
     <header className="relative" aria-labelledby="listing-title">
       <div className="mx-auto max-w-6xl px-4 md:px-6">
-        <div
-          className="
-            rounded-3xl p-4 md:p-6 lg:p-8
-            bg-white/70 dark:bg-white/5
-            backdrop-blur-xl
-            ring-1 ring-black/10
-            shadow-[0_10px_40px_-10px_rgba(0,0,0,0.25)]
-            space-y-4
-          "
-        >
+        {/* Removed card styles: no bg, no blur, no ring, no shadow, no rounded */}
+        <div className="py-6 md:py-8 lg:py-10 space-y-4">
           {/* Location (eyebrow) */}
           <p className="text-sm font-medium text-gray-600 dark:text-gray-300">
             {flat.location?.area}, {flat.location?.city}
