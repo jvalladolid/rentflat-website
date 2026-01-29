@@ -1,17 +1,17 @@
+/* src/app/globals.css */
 @import 'tailwindcss';
 
+/* ---- Theme variables (kept) ---- */
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
-
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -19,21 +19,66 @@
   }
 }
 
-.mapWrapper {
-  height: 360px;
-  width: 100%;
+/* ---- Base ---- */
+html {
+  scroll-behavior: smooth;
 }
-
-.leaflet-container {
-  z-index: 0;
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
 
-html {
-  scroll-behavior: smooth;
+/* Typography: readable defaults */
+h1,
+h2,
+h3 {
+  color: #111827;
+  letter-spacing: -0.01em;
+}
+h1 {
+  font-size: clamp(28px, 2.8vw, 36px);
+  font-weight: 700;
+}
+h2 {
+  font-size: clamp(22px, 2.2vw, 28px);
+  font-weight: 600;
+}
+h3 {
+  font-size: clamp(18px, 1.8vw, 22px);
+  font-weight: 600;
+}
+p,
+li {
+  color: #374151;
+  line-height: 1.7;
+  font-size: 16px;
+}
+
+/* Spacing rhythm helpers (opt‑in) */
+.section {
+  padding-block: 3rem;
+}
+@media (min-width: 768px) {
+  .section {
+    padding-block: 4rem;
+  }
+}
+
+/* Map sizing (kept) */
+.mapWrapper {
+  height: 360px;
+  width: 100%;
+}
+
+/* Always keep Leaflet below overlays like drawers */
+.leaflet-container {
+  z-index: 0;
+} /* ensures drawers/backdrops with z>0 win */
+
+/* Focus visibility */
+:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #2563eb; /* blue-600 */
+  border-radius: 6px;
 }

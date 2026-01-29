@@ -26,22 +26,16 @@ export function MenuSection() {
     const elements = SECTIONS.map((s) => document.getElementById(s.id)).filter(
       Boolean,
     ) as HTMLElement[];
-
     if (observerRef.current) observerRef.current.disconnect();
+
     observerRef.current = new IntersectionObserver(
       (entries) => {
-        // prefer the section closest to the top
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
         if (visible[0]) setActive(visible[0].target.id);
       },
-      {
-        root: null,
-        // Top-biased detection so the item becomes active when it hits the top area
-        rootMargin: '-1px 0px -80% 0px',
-        threshold: [0, 0.1, 0.25, 0.5, 1],
-      },
+      { root: null, rootMargin: '-1px 0px -80% 0px', threshold: [0, 0.1, 0.25, 0.5, 1] },
     );
     elements.forEach((el) => observerRef.current!.observe(el));
     return () => observerRef.current?.disconnect();
@@ -87,20 +81,15 @@ export function MenuSection() {
   const handleClick = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
-    const headerOffset = 0;
-    const top = el.getBoundingClientRect().top + window.scrollY - headerOffset;
+    const top = el.getBoundingClientRect().top + window.scrollY;
     window.scrollTo({ top, behavior: 'smooth' });
     setOpen(false);
   };
 
   return (
-    /**
-     * Sticky trigger aligned to your container. The drawer itself is portal-like
-     * (position: fixed) so it overlays the whole viewport.
-     */
     <div className="sticky top-0 z-40 h-0">
       <div className="relative">
-        {/* Trigger button (kept mounted; hidden & non-interactive when open) */}
+        {/* Trigger kept mounted; hidden & non-interactive while open */}
         <button
           ref={buttonRef}
           type="button"
@@ -116,10 +105,9 @@ export function MenuSection() {
             'text-gray-800 select-none',
             'flex items-center justify-center',
             'focus:outline-none focus:ring-2 focus:ring-blue-500',
-            'z-1002', // above backdrop & drawer if needed
-            open && 'opacity-0 pointer-events-none', // hide while menu is open
+            'z-1002',
+            open && 'opacity-0 pointer-events-none', // <-- hides when open
           )}
-          // When hidden, also convey it to assistive tech
           aria-hidden={open ? true : undefined}
           tabIndex={open ? -1 : 0}
         >
@@ -127,7 +115,7 @@ export function MenuSection() {
         </button>
       </div>
 
-      {/* Backdrop (scrim) */}
+      {/* Backdrop */}
       <div
         onClick={() => setOpen(false)}
         className={clsx(
@@ -144,16 +132,16 @@ export function MenuSection() {
         aria-modal="true"
         aria-label="Menú de secciones"
         className={clsx(
-          'fixed inset-y-0 right-0 w-[78vw] max-w-sm',
+          'fixed inset-y-0 right-0 w-[86vw] max-w-105', // narrower desktop width
           'bg-white shadow-2xl ring-1 ring-black/10',
           'transition-transform duration-300 ease-out',
           open ? 'translate-x-0' : 'translate-x-full',
           'flex flex-col',
-          'z-1001', // above map and backdrop
+          'z-1001',
         )}
         tabIndex={-1}
       >
-        {/* Header inside drawer */}
+        {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
           <span className="text-sm font-semibold text-gray-700">Menú</span>
           <button
@@ -175,8 +163,10 @@ export function MenuSection() {
                   <button
                     onClick={() => handleClick(item.id)}
                     className={clsx(
-                      'w-full text-left px-3 py-3 rounded-md text-[15px] font-medium transition',
-                      isActive ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-100',
+                      'w-full text-left px-3 py-3 rounded-md text-[15px] font-medium transition border-l-2',
+                      isActive
+                        ? 'bg-blue-50 text-blue-700 border-blue-600'
+                        : 'text-gray-700 hover:bg-gray-100 border-transparent',
                     )}
                   >
                     {item.label}
@@ -187,7 +177,7 @@ export function MenuSection() {
           </ul>
         </nav>
 
-        {/* Optional footer snippet (muted) */}
+        {/* Footer helper */}
         <div className="px-4 py-3 border-t border-gray-100 text-xs text-gray-500">
           Usa Esc para cerrar • Pulsa en una sección para navegar
         </div>
