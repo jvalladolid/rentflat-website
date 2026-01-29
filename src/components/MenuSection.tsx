@@ -1,5 +1,6 @@
 // src/components/MenuSection.tsx
 'use client';
+
 import { useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 
@@ -27,7 +28,6 @@ export function MenuSection() {
     ) as HTMLElement[];
 
     if (observerRef.current) observerRef.current.disconnect();
-
     observerRef.current = new IntersectionObserver(
       (entries) => {
         // prefer the section closest to the top
@@ -43,7 +43,6 @@ export function MenuSection() {
         threshold: [0, 0.1, 0.25, 0.5, 1],
       },
     );
-
     elements.forEach((el) => observerRef.current!.observe(el));
     return () => observerRef.current?.disconnect();
   }, []);
@@ -58,7 +57,7 @@ export function MenuSection() {
     };
   }, [open]);
 
-  // --- Close on Esc & backdrop click handled below ---
+  // --- Close on Esc while open ---
   useEffect(() => {
     if (!open) return;
     const onEsc = (e: KeyboardEvent) => {
@@ -68,18 +67,30 @@ export function MenuSection() {
     return () => document.removeEventListener('keydown', onEsc);
   }, [open]);
 
+  // --- Focus management: move focus into drawer when open; restore to trigger when closed ---
+  useEffect(() => {
+    if (open) {
+      const id = window.setTimeout(() => {
+        const closeBtn = panelRef.current?.querySelector<HTMLButtonElement>(
+          'button[aria-label="Cerrar menú"]',
+        );
+        (closeBtn ?? panelRef.current)?.focus?.();
+      }, 0);
+      return () => window.clearTimeout(id);
+    } else {
+      buttonRef.current?.focus?.();
+    }
+  }, [open]);
+
   const items = useMemo(() => SECTIONS, []);
 
   const handleClick = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
-
-    // Bring section to the very top (no previous section visible)
-    const headerOffset = 0; // keep 0 because we removed scroll-margin-top in sections
+    const headerOffset = 0;
     const top = el.getBoundingClientRect().top + window.scrollY - headerOffset;
     window.scrollTo({ top, behavior: 'smooth' });
-
-    setOpen(false); // auto-close the drawer
+    setOpen(false);
   };
 
   return (
@@ -89,7 +100,7 @@ export function MenuSection() {
      */
     <div className="sticky top-0 z-40 h-0">
       <div className="relative">
-        {/* Trigger button */}
+        {/* Trigger button (kept mounted; hidden & non-interactive when open) */}
         <button
           ref={buttonRef}
           type="button"
@@ -105,8 +116,12 @@ export function MenuSection() {
             'text-gray-800 select-none',
             'flex items-center justify-center',
             'focus:outline-none focus:ring-2 focus:ring-blue-500',
-            'z-1002',
+            'z-1002', // above backdrop & drawer if needed
+            open && 'opacity-0 pointer-events-none', // hide while menu is open
           )}
+          // When hidden, also convey it to assistive tech
+          aria-hidden={open ? true : undefined}
+          tabIndex={open ? -1 : 0}
         >
           <span className="text-xl leading-none">≡</span>
         </button>
@@ -134,12 +149,13 @@ export function MenuSection() {
           'transition-transform duration-300 ease-out',
           open ? 'translate-x-0' : 'translate-x-full',
           'flex flex-col',
-          'z-1001',
+          'z-1001', // above map and backdrop
         )}
+        tabIndex={-1}
       >
         {/* Header inside drawer */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-          <span className="text-sm font-semibold text-gray-700">Secciones</span>
+          <span className="text-sm font-semibold text-gray-700">Menú</span>
           <button
             onClick={() => setOpen(false)}
             className="h-8 w-8 rounded-md flex items-center justify-center text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
