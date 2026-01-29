@@ -105,6 +105,7 @@ export function MenuSection() {
             'text-gray-800 select-none',
             'flex items-center justify-center',
             'focus:outline-none focus:ring-2 focus:ring-blue-500',
+            'z-1002',
           )}
         >
           <span className="text-xl leading-none">≡</span>
@@ -115,7 +116,7 @@ export function MenuSection() {
       <div
         onClick={() => setOpen(false)}
         className={clsx(
-          'fixed inset-0 bg-black/40 transition-opacity',
+          'fixed inset-0 bg-black/40 transition-opacity z-1000',
           open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none',
         )}
       />
@@ -133,6 +134,7 @@ export function MenuSection() {
           'transition-transform duration-300 ease-out',
           open ? 'translate-x-0' : 'translate-x-full',
           'flex flex-col',
+          'z-1001',
         )}
       >
         {/* Header inside drawer */}
