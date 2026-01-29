@@ -19,44 +19,9 @@
   }
 }
 
-/* ============================
-   Map layout (responsive, robust)
-   ============================ */
-
-/* 1) The outer wrapper *reserves* vertical space via aspect-ratio */
-.map-wrapper {
-  position: relative;
-  aspect-ratio: 16 / 9; /* default ratio; adjust to taste */
+.mapWrapper {
+  height: 360px;
   width: 100%;
-  overflow: hidden; /* prevents tile/canvas bleed if you add radius/shadows */
-}
-
-/* 2) The map canvas fills the wrapper */
-.map-canvas {
-  position: absolute;
-  inset: 0; /* top:0; right:0; bottom:0; left:0 */
-}
-
-/* 3) Leaflet container must expand to its parent */
-.map-canvas .leaflet-container {
-  height: 100%;
-  width: 100%;
-}
-
-/* 4) Optional: responsive ratio tweaks */
-@media (max-width: 640px) {
-  .map-wrapper {
-    aspect-ratio: 4 / 3; /* taller map on small screens for better legibility */
-  }
-}
-
-/* 5) Optional: when you render the "empty" state inside the wrapper */
-.map-empty {
-  display: grid;
-  place-items: center;
-  height: 100%;
-  color: #6b7280; /* gray-500 */
-  font-size: 0.95rem;
 }
 
 body {
