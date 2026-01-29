@@ -35,40 +35,41 @@ export function Neighborhood({ services, approximateArea }: NeighborhoodProps) {
       {/* ===================== */}
       {/*   SERVICES LIST */}
       {/* ===================== */}
+      <div className="relative z-10 mt-4">
+        <ul className="space-y-4">
+          {services.map((service) => {
+            const Icon = ServiceIconMap[service.type];
 
-      <ul className="space-y-4">
-        {services.map((service) => {
-          const Icon = ServiceIconMap[service.type];
+            return (
+              <li key={service.id} className="flex items-start gap-3">
+                {/* ✅ THIS IS WHERE YOUR ICON LINE GOES */}
+                <Icon className={`w-5 h-5 mt-1 ${ServiceColorMap[service.type]} opacity-90`} />
 
-          return (
-            <li key={service.id} className="flex items-start gap-3">
-              {/* ✅ THIS IS WHERE YOUR ICON LINE GOES */}
-              <Icon className={`w-5 h-5 mt-1 ${ServiceColorMap[service.type]} opacity-90`} />
+                <div>
+                  <strong>{service.name}</strong>
 
-              <div>
-                <strong>{service.name}</strong>
-
-                <div className="text-sm text-gray-600">
-                  {service.travelTimes.map((t) => (
-                    <span key={t.mode} className="mr-4 inline-flex items-center gap-1">
-                      <Image
-                        src={t.mode === 'walking' ? WALKING_ICON_SRC : METRO_ICON_SRC}
-                        alt={t.mode === 'walking' ? 'Andando' : 'En Metro'}
-                        width={16}
-                        height={16}
-                        className="opacity-90"
-                      />
-                      <span>
-                        {t.mode === 'walking' ? 'Andando' : 'En Metro'} · {t.minutes} min
+                  <div className="text-sm text-gray-600">
+                    {service.travelTimes.map((t) => (
+                      <span key={t.mode} className="mr-4 inline-flex items-center gap-1">
+                        <Image
+                          src={t.mode === 'walking' ? WALKING_ICON_SRC : METRO_ICON_SRC}
+                          alt={t.mode === 'walking' ? 'Andando' : 'En Metro'}
+                          width={16}
+                          height={16}
+                          className="opacity-90"
+                        />
+                        <span>
+                          {t.mode === 'walking' ? 'Andando' : 'En Metro'} · {t.minutes} min
+                        </span>
                       </span>
-                    </span>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </section>
   );
 }
