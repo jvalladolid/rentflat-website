@@ -1,12 +1,19 @@
 // src/components/MapSection.tsx
-
 'use client';
 
 import 'leaflet/dist/leaflet.css';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMap,
+  Circle,
+  Rectangle,
+  Polygon,
+} from 'react-leaflet';
 import type { NearbyService, ApproxArea, ServiceType } from '@/data/flat-dto';
 import { useEffect, useMemo } from 'react';
-import { Circle, Rectangle, Polygon } from 'react-leaflet';
 import L, { LatLngBoundsExpression, LatLngTuple } from 'leaflet';
 import { ServiceIconMap, ServiceColorHexMap } from '@/components/Service-Icons';
 import React from 'react';
@@ -19,7 +26,6 @@ const defaultIcon = new L.Icon.Default({
   iconUrl: '/leaflet/marker-icon.png',
   shadowUrl: '/leaflet/marker-shadow.png',
 });
-
 L.Marker.prototype.options.icon = defaultIcon;
 
 /** ---- Icons for the Popup ---- */
@@ -28,7 +34,7 @@ const OSAKIDETZA_ICON_SRC = '/icons/Osakidetza.png';
 const PHARMACY_ICON_SRC = '/icons/Pharmacy.png';
 const GYM_ICON_SRC = '/icons/Gym.png';
 
-/** ---- Icons for the Popup ---- */
+/** ---- Travel mode icons ---- */
 const WALKING_ICON_SRC = '/icons/Andando.png';
 const METRO_ICON_SRC = METRO_BILBAO_ICON_SRC;
 
@@ -43,45 +49,15 @@ function divIconForServiceType(type: ServiceType): L.DivIcon {
   const IconCmp = ServiceIconMap[type];
   const color = ServiceColorHexMap[type] ?? '#2563eb';
 
-  // Build the inner icon markup WITHOUT using `any`
-  let innerHtml = '';
-
-  if (type === 'transporte') {
-    innerHtml = `<img
-        src="METRO_BILBAO_ICON_SRC"',
-      ' alt=""',
-      ' width="18"',
-      ' height="p" />`;
-  } else if (type === 'salud') {
-    innerHtml = `<img
-        src="OSAKIDETZA_ICON_SRC"',
-      ' alt=""',
-      ' width="18"',
-      ' height="p" />`;
-  } else if (type === 'pharmacy') {
-    innerHtml = `<img
-        src="PHARMACY_ICON_SRC"',
-      ' alt=""',
-      ' width="18"',
-      ' height="p" />`;
-  } else if (type === 'sports') {
-    innerHtml = `<img
-        src="GYM_ICON_SRC"',
-      ' alt=""',
-      ' width="18"',
-      ' height="p" />`;
-  }
-
   const Lucide = IconCmp as unknown as LucideIcon;
   const svgMarkup = ReactDOMServer.renderToStaticMarkup(
     React.createElement(Lucide, { size: 18, strokeWidth: 2 }),
   );
-  innerHtml = [
-    '<span style="color:',
-    color,
-    ';display:inline-flex;align-items:center;justify-content:center;">',
+
+  const innerHtml = [
+    `<div style="width:18px;height:18px;color:${color};display:flex;align-items:center;justify-content:center">`,
     svgMarkup,
-    '</span>',
+    `</div>`,
   ].join('');
 
   // Outer badge: small square, white, subtle border + shadow
@@ -89,15 +65,15 @@ function divIconForServiceType(type: ServiceType): L.DivIcon {
     'width:28px;height:28px',
     'background:#ffffff',
     'border:1px solid #e5e7eb', // gray-200
-    'border-radius:6px', // change to 0 for a perfect square
+    'border-radius:6px',
     'box-shadow:0 2px 6px rgba(0,0,0,.18)',
     'display:flex;align-items:center;justify-content:center',
   ].join(';');
 
-  const html = '<div style="' + outerStyle + '">' + innerHtml + '</div>';
+  const html = `<div style="${outerStyle}">${innerHtml}</div>`;
 
   const icon = L.divIcon({
-    className: '', // avoid Leaflet defaults
+    className: '',
     html,
     iconSize: [28, 28],
     iconAnchor: [14, 14], // center on point
@@ -111,7 +87,6 @@ function divIconForServiceType(type: ServiceType): L.DivIcon {
 function boundsOfApproxArea(area: ApproxArea): L.LatLngBounds {
   if (area.kind === 'circle') {
     const { center, radiusMeters } = area;
-    // Build a temporary circle to read its bounds
     return L.latLng(center.lat, center.lng).toBounds(radiusMeters);
   }
   if (area.kind === 'rectangle') {
@@ -155,85 +130,69 @@ export function MapSection({ services, approximateArea }: MapSectionProps) {
   const initialCenter = positions[0] ?? [43.263, -2.935]; // Bilbao
 
   return (
-    <div style={{ height: 360, width: '100%' }}>
+    <div className="relative z-0">
       {servicesWithLocation.length === 0 ? (
-        <div>Mapa no disponible para esta localización aún.</div>
+        <div className="text-sm text-gray-600 py-4">
+          Mapa no disponible para esta localización aún.
+        </div>
       ) : (
-        <div className="relative z-0">
+        <div className="w-full h-90 md:h-105">
           <MapContainer
-            center={initialCenter as [number, number]}
-            zoom={13}
-            style={{ height: '100%', width: '100%' }}
-            scrollWheelZoom={true}
+            center={initialCenter}
+            zoom={14}
+            scrollWheelZoom={false}
+            className="w-full h-full rounded-lg ring-1 ring-black/10"
           >
             <TileLayer
-              attribution="&copy; OpenStreetMap contributors"
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution="&copy; OpenStreetMap contributors"
             />
 
-            {/* Approximate area */}
-            {approximateArea && (
-              <>
-                <FitToArea area={approximateArea} />
+            {/* Fit to the approximate area if provided */}
+            {approximateArea && <FitToArea area={approximateArea} />}
 
-                {approximateArea.kind === 'circle' && (
-                  <Circle
-                    center={[approximateArea.center.lat, approximateArea.center.lng] as LatLngTuple}
-                    radius={approximateArea.radiusMeters}
-                    pathOptions={{ color: '#2563eb', fillColor: '#60a5fa', fillOpacity: 0.25 }}
-                  />
-                )}
-
-                {approximateArea.kind === 'rectangle' && (
-                  <Rectangle
-                    bounds={approximateArea.bounds as LatLngBoundsExpression}
-                    pathOptions={{ color: '#2563eb', fillColor: '#60a5fa', fillOpacity: 0.2 }}
-                  />
-                )}
-
-                {approximateArea.kind === 'polygon' && (
-                  <Polygon
-                    positions={approximateArea.coordinates as LatLngTuple[]}
-                    pathOptions={{ color: '#2563eb', fillColor: '#60a5fa', fillOpacity: 0.2 }}
-                  />
-                )}
-              </>
+            {/* Approximate area shapes */}
+            {approximateArea && approximateArea.kind === 'circle' && (
+              <Circle
+                center={[approximateArea.center.lat, approximateArea.center.lng]}
+                radius={approximateArea.radiusMeters}
+                pathOptions={{ color: '#2563eb', fillOpacity: 0.08 }}
+              />
+            )}
+            {approximateArea && approximateArea.kind === 'rectangle' && (
+              <Rectangle
+                bounds={approximateArea.bounds}
+                pathOptions={{ color: '#2563eb', fillOpacity: 0.08 }}
+              />
+            )}
+            {approximateArea && approximateArea.kind === 'polygon' && (
+              <Polygon
+                positions={approximateArea.coordinates}
+                pathOptions={{ color: '#2563eb', fillOpacity: 0.08 }}
+              />
             )}
 
-            {servicesWithLocation.map((service) => {
+            {/* Services */}
+            {servicesWithLocation.map((service, idx) => {
               const { lat, lng } = service.location!;
               const icon = divIconForServiceType(service.type);
               return (
-                <Marker key={`${service.id}-${lat}-${lng}`} position={[lat, lng]} icon={icon}>
+                <Marker key={idx} position={[lat, lng]} icon={icon}>
                   <Popup>
-                    <strong style={{ display: 'block', margin: 0, textAlign: 'left' }}>
-                      {service.name}
-                    </strong>
-
+                    <div className="text-sm font-medium">{service.name}</div>
                     {service.travelTimes?.length ? (
-                      <ul style={{ paddingLeft: 0, margin: '6px 0 0' }}>
+                      <ul className="mt-2 text-xs space-y-1">
                         {service.travelTimes.map((t, i) => (
-                          <li
-                            key={i}
-                            style={{
-                              listStyle: 'none',
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: 6,
-                              whiteSpace: 'nowrap',
-                            }}
-                          >
+                          <li key={i} className="flex items-center gap-2">
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                               src={t.mode === 'walking' ? WALKING_ICON_SRC : METRO_ICON_SRC}
-                              alt={t.mode === 'walking' ? 'Andando' : 'En Metro'}
-                              width={14}
-                              height={14}
-                              style={{ opacity: 0.9 }}
+                              alt=""
+                              width={16}
+                              height={16}
                             />
-                            <span>
-                              {t.mode === 'walking' ? 'Andando' : 'En Metro'} · {t.minutes}
-                              {'\u00A0'}min
+                            <span className="text-gray-700">
+                              {t.mode === 'walking' ? 'Andando' : 'En Metro'} · {t.minutes} min
                             </span>
                           </li>
                         ))}
