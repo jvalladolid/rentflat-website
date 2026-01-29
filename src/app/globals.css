@@ -24,6 +24,10 @@
   width: 100%;
 }
 
+.leaflet-container {
+  z-index: 0;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
