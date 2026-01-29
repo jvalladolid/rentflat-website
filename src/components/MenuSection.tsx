@@ -1,6 +1,7 @@
 // src/components/MenuSection.tsx
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 
 type Section = { id: string; label: string };
@@ -17,7 +18,6 @@ export function MenuSection() {
   const [active, setActive] = useState<string>('hero');
 
   const buttonRef = useRef<HTMLButtonElement | null>(null);
-  const panelRef = useRef<HTMLDivElement | null>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   // --- Track visible section to highlight active item ---
@@ -30,7 +30,6 @@ export function MenuSection() {
 
     observerRef.current = new IntersectionObserver(
       (entries) => {
-        // prefer the section closest to the top
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
@@ -38,7 +37,6 @@ export function MenuSection() {
       },
       {
         root: null,
-        // Top-biased detection so the item becomes active when it hits the top area
         rootMargin: '-1px 0px -80% 0px',
         threshold: [0, 0.1, 0.25, 0.5, 1],
       },
@@ -58,7 +56,7 @@ export function MenuSection() {
     };
   }, [open]);
 
-  // --- Close on Esc & backdrop click handled below ---
+  // --- Close on Esc ---
   useEffect(() => {
     if (!open) return;
     const onEsc = (e: KeyboardEvent) => {
@@ -74,22 +72,93 @@ export function MenuSection() {
     const el = document.getElementById(id);
     if (!el) return;
 
-    // Bring section to the very top (no previous section visible)
-    const headerOffset = 0; // keep 0 because we removed scroll-margin-top in sections
+    // Align the section flush to the top
+    const headerOffset = 0;
     const top = el.getBoundingClientRect().top + window.scrollY - headerOffset;
     window.scrollTo({ top, behavior: 'smooth' });
 
-    setOpen(false); // auto-close the drawer
+    setOpen(false);
   };
 
+  // ---- Portalled overlay (no state set in effect; guarded for SSR) ----
+  const overlay =
+    typeof document !== 'undefined'
+      ? createPortal(
+          <>
+            {/* Backdrop (scrim) — high z-index so it sits above the map */}
+            <div
+              onClick={() => setOpen(false)}
+              className={clsx(
+                'fixed inset-0 bg-black/40 transition-opacity',
+                'z-1000',
+                open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none',
+              )}
+            />
+
+            {/* Drawer panel — high z-index */}
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-label="Menú de secciones"
+              className={clsx(
+                'fixed inset-y-0 right-0 w-[78vw] max-w-sm',
+                'bg-white shadow-2xl ring-1 ring-black/10',
+                'transition-transform duration-300 ease-out',
+                open ? 'translate-x-0' : 'translate-x-full',
+                'z-1001',
+                'flex flex-col',
+              )}
+            >
+              {/* Header inside drawer */}
+              <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+                <span className="text-sm font-semibold text-gray-700">Secciones</span>
+                <button
+                  onClick={() => setOpen(false)}
+                  className="h-8 w-8 rounded-md flex items-center justify-center text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  aria-label="Cerrar menú"
+                >
+                  ✕
+                </button>
+              </div>
+
+              {/* Items */}
+              <nav className="flex-1 overflow-y-auto py-2">
+                <ul className="px-2 space-y-1">
+                  {items.map((item) => {
+                    const isActive = active === item.id;
+                    return (
+                      <li key={item.id}>
+                        <button
+                          onClick={() => handleClick(item.id)}
+                          className={clsx(
+                            'w-full text-left px-3 py-3 rounded-md text-[15px] font-medium transition',
+                            isActive
+                              ? 'bg-blue-50 text-blue-700'
+                              : 'text-gray-700 hover:bg-gray-100',
+                          )}
+                        >
+                          {item.label}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </nav>
+
+              {/* Optional footer snippet */}
+              <div className="px-4 py-3 border-t border-gray-100 text-xs text-gray-500">
+                Usa Esc para cerrar • Pulsa en una sección para navegar
+              </div>
+            </div>
+          </>,
+          document.body,
+        )
+      : null;
+
   return (
-    /**
-     * Sticky trigger aligned to your container. The drawer itself is portal-like
-     * (position: fixed) so it overlays the whole viewport.
-     */
+    // Sticky trigger aligned to your container (unchanged)
     <div className="sticky top-0 z-40 h-0">
       <div className="relative">
-        {/* Trigger button */}
         <button
           ref={buttonRef}
           type="button"
@@ -111,69 +180,8 @@ export function MenuSection() {
         </button>
       </div>
 
-      {/* Backdrop (scrim) */}
-      <div
-        onClick={() => setOpen(false)}
-        className={clsx(
-          'fixed inset-0 bg-black/40 transition-opacity',
-          open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none',
-        )}
-      />
-
-      {/* Drawer panel */}
-      <div
-        id="menu-drawer"
-        ref={panelRef}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Menú de secciones"
-        className={clsx(
-          'fixed inset-y-0 right-0 w-[78vw] max-w-sm',
-          'bg-white shadow-2xl ring-1 ring-black/10',
-          'transition-transform duration-300 ease-out',
-          open ? 'translate-x-0' : 'translate-x-full',
-          'flex flex-col',
-        )}
-      >
-        {/* Header inside drawer */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-          <span className="text-sm font-semibold text-gray-700">Secciones</span>
-          <button
-            onClick={() => setOpen(false)}
-            className="h-8 w-8 rounded-md flex items-center justify-center text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            aria-label="Cerrar menú"
-          >
-            ✕
-          </button>
-        </div>
-
-        {/* Items */}
-        <nav className="flex-1 overflow-y-auto py-2">
-          <ul className="px-2 space-y-1">
-            {items.map((item) => {
-              const isActive = active === item.id;
-              return (
-                <li key={item.id}>
-                  <button
-                    onClick={() => handleClick(item.id)}
-                    className={clsx(
-                      'w-full text-left px-3 py-3 rounded-md text-[15px] font-medium transition',
-                      isActive ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-100',
-                    )}
-                  >
-                    {item.label}
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>
-
-        {/* Optional footer snippet (muted) */}
-        <div className="px-4 py-3 border-t border-gray-100 text-xs text-gray-500">
-          Usa Esc para cerrar • Pulsa en una sección para navegar
-        </div>
-      </div>
+      {/* Portalled overlay (backdrop + drawer) */}
+      {overlay}
     </div>
   );
 }

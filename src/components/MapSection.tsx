@@ -159,90 +159,92 @@ export function MapSection({ services, approximateArea }: MapSectionProps) {
       {servicesWithLocation.length === 0 ? (
         <div>Mapa no disponible para esta localización aún.</div>
       ) : (
-        <MapContainer
-          center={initialCenter as [number, number]}
-          zoom={13}
-          style={{ height: '100%', width: '100%' }}
-          scrollWheelZoom={true}
-        >
-          <TileLayer
-            attribution="&copy; OpenStreetMap contributors"
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
+        <div className="relative z-0">
+          <MapContainer
+            center={initialCenter as [number, number]}
+            zoom={13}
+            style={{ height: '100%', width: '100%' }}
+            scrollWheelZoom={true}
+          >
+            <TileLayer
+              attribution="&copy; OpenStreetMap contributors"
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
 
-          {/* Approximate area */}
-          {approximateArea && (
-            <>
-              <FitToArea area={approximateArea} />
+            {/* Approximate area */}
+            {approximateArea && (
+              <>
+                <FitToArea area={approximateArea} />
 
-              {approximateArea.kind === 'circle' && (
-                <Circle
-                  center={[approximateArea.center.lat, approximateArea.center.lng] as LatLngTuple}
-                  radius={approximateArea.radiusMeters}
-                  pathOptions={{ color: '#2563eb', fillColor: '#60a5fa', fillOpacity: 0.25 }}
-                />
-              )}
+                {approximateArea.kind === 'circle' && (
+                  <Circle
+                    center={[approximateArea.center.lat, approximateArea.center.lng] as LatLngTuple}
+                    radius={approximateArea.radiusMeters}
+                    pathOptions={{ color: '#2563eb', fillColor: '#60a5fa', fillOpacity: 0.25 }}
+                  />
+                )}
 
-              {approximateArea.kind === 'rectangle' && (
-                <Rectangle
-                  bounds={approximateArea.bounds as LatLngBoundsExpression}
-                  pathOptions={{ color: '#2563eb', fillColor: '#60a5fa', fillOpacity: 0.2 }}
-                />
-              )}
+                {approximateArea.kind === 'rectangle' && (
+                  <Rectangle
+                    bounds={approximateArea.bounds as LatLngBoundsExpression}
+                    pathOptions={{ color: '#2563eb', fillColor: '#60a5fa', fillOpacity: 0.2 }}
+                  />
+                )}
 
-              {approximateArea.kind === 'polygon' && (
-                <Polygon
-                  positions={approximateArea.coordinates as LatLngTuple[]}
-                  pathOptions={{ color: '#2563eb', fillColor: '#60a5fa', fillOpacity: 0.2 }}
-                />
-              )}
-            </>
-          )}
+                {approximateArea.kind === 'polygon' && (
+                  <Polygon
+                    positions={approximateArea.coordinates as LatLngTuple[]}
+                    pathOptions={{ color: '#2563eb', fillColor: '#60a5fa', fillOpacity: 0.2 }}
+                  />
+                )}
+              </>
+            )}
 
-          {servicesWithLocation.map((service) => {
-            const { lat, lng } = service.location!;
-            const icon = divIconForServiceType(service.type);
-            return (
-              <Marker key={`${service.id}-${lat}-${lng}`} position={[lat, lng]} icon={icon}>
-                <Popup>
-                  <strong style={{ display: 'block', margin: 0, textAlign: 'left' }}>
-                    {service.name}
-                  </strong>
+            {servicesWithLocation.map((service) => {
+              const { lat, lng } = service.location!;
+              const icon = divIconForServiceType(service.type);
+              return (
+                <Marker key={`${service.id}-${lat}-${lng}`} position={[lat, lng]} icon={icon}>
+                  <Popup>
+                    <strong style={{ display: 'block', margin: 0, textAlign: 'left' }}>
+                      {service.name}
+                    </strong>
 
-                  {service.travelTimes?.length ? (
-                    <ul style={{ paddingLeft: 0, margin: '6px 0 0' }}>
-                      {service.travelTimes.map((t, i) => (
-                        <li
-                          key={i}
-                          style={{
-                            listStyle: 'none',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: 6,
-                            whiteSpace: 'nowrap',
-                          }}
-                        >
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={t.mode === 'walking' ? WALKING_ICON_SRC : METRO_ICON_SRC}
-                            alt={t.mode === 'walking' ? 'Andando' : 'En Metro'}
-                            width={14}
-                            height={14}
-                            style={{ opacity: 0.9 }}
-                          />
-                          <span>
-                            {t.mode === 'walking' ? 'Andando' : 'En Metro'} · {t.minutes}
-                            {'\u00A0'}min
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
-                </Popup>
-              </Marker>
-            );
-          })}
-        </MapContainer>
+                    {service.travelTimes?.length ? (
+                      <ul style={{ paddingLeft: 0, margin: '6px 0 0' }}>
+                        {service.travelTimes.map((t, i) => (
+                          <li
+                            key={i}
+                            style={{
+                              listStyle: 'none',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: 6,
+                              whiteSpace: 'nowrap',
+                            }}
+                          >
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={t.mode === 'walking' ? WALKING_ICON_SRC : METRO_ICON_SRC}
+                              alt={t.mode === 'walking' ? 'Andando' : 'En Metro'}
+                              width={14}
+                              height={14}
+                              style={{ opacity: 0.9 }}
+                            />
+                            <span>
+                              {t.mode === 'walking' ? 'Andando' : 'En Metro'} · {t.minutes}
+                              {'\u00A0'}min
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : null}
+                  </Popup>
+                </Marker>
+              );
+            })}
+          </MapContainer>
+        </div>
       )}
     </div>
   );
