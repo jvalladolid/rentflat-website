@@ -21,6 +21,27 @@ export function MenuSection() {
   const panelRef = useRef<HTMLDivElement | null>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
+  // Compute the section currently nearest to the top of the viewport
+  const getCurrentSectionId = () => {
+    const elems = SECTIONS.map((s) => document.getElementById(s.id)).filter(
+      Boolean,
+    ) as HTMLElement[];
+    if (elems.length === 0) return active;
+    const viewportTop = 0;
+    const tolerance = 24; // px: treat very small offsets as "at top"
+    let best: { id: string; dist: number } | null = null;
+    for (const el of elems) {
+      const top = el.getBoundingClientRect().top;
+      const dist = Math.abs(top - viewportTop);
+      if (!best || dist < best.dist) best = { id: el.id, dist };
+      if (Math.abs(top) <= tolerance) {
+        // close enough to top — early exit
+        return el.id;
+      }
+    }
+    return best?.id ?? active;
+  };
+
   // --- Track visible section to highlight active item ---
   useEffect(() => {
     const elements = SECTIONS.map((s) => document.getElementById(s.id)).filter(
@@ -30,13 +51,22 @@ export function MenuSection() {
 
     observerRef.current = new IntersectionObserver(
       (entries) => {
-        const visible = entries
+        // Pick the most visible section to reduce jitter near boundaries
+        const candidate = entries
           .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible[0]) setActive(visible[0].target.id);
+          .sort((a, b) => (b.intersectionRatio || 0) - (a.intersectionRatio || 0))[0];
+        if (candidate?.target?.id) {
+          setActive(candidate.target.id);
+        }
       },
-      { root: null, rootMargin: '-1px 0px -80% 0px', threshold: [0, 0.1, 0.25, 0.5, 1] },
+      {
+        root: null,
+        // Keep top-biased behavior but with a gentler margin
+        rootMargin: '-10% 0px -70% 0px',
+        threshold: [0.1, 0.25, 0.5, 0.75, 1],
+      },
     );
+
     elements.forEach((el) => observerRef.current!.observe(el));
     return () => observerRef.current?.disconnect();
   }, []);
@@ -61,20 +91,16 @@ export function MenuSection() {
     return () => document.removeEventListener('keydown', onEsc);
   }, [open]);
 
-  // --- Focus management: move focus into drawer when open; restore to trigger when closed ---
+  // --- When opening the drawer, sync the active item to the section currently at/near top ---
   useEffect(() => {
     if (open) {
-      const id = window.setTimeout(() => {
-        const closeBtn = panelRef.current?.querySelector<HTMLButtonElement>(
-          'button[aria-label="Cerrar menú"]',
-        );
-        (closeBtn ?? panelRef.current)?.focus?.();
-      }, 0);
-      return () => window.clearTimeout(id);
-    } else {
-      buttonRef.current?.focus?.();
+      // Wait one frame so layout settles, then compute
+      const id = requestAnimationFrame(() => {
+        setActive(getCurrentSectionId());
+      });
+      return () => cancelAnimationFrame(id);
     }
-  }, [open]);
+  }, [open]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const items = useMemo(() => SECTIONS, []);
 
@@ -83,6 +109,8 @@ export function MenuSection() {
     if (!el) return;
     const top = el.getBoundingClientRect().top + window.scrollY;
     window.scrollTo({ top, behavior: 'smooth' });
+    // Optimistically mark the item as active (IO will confirm soon after)
+    setActive(id);
     setOpen(false);
   };
 
