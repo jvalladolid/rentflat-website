@@ -1,7 +1,7 @@
 import { Flat } from './flat-dto';
 
 export const flat: Flat = {
-  title: 'VIVIENDA AMPLIA DE 2 HAB. EN SANTUTXU',
+  title: 'VIVIENDA DE 2 HABITACIONES EN SANTUTXU',
   subtitle:
     'A 5 min de la estación de metro. Espacio de estudio en cada habitación. Ideal para residentes de medicina y de enfermería',
   price: 1300,
