@@ -1,9 +1,9 @@
 import { Flat } from './flat-dto';
 
 export const flat: Flat = {
-  title: 'VIVIENDA AMPLIA Y SILENCIOSA DE 2 HABITACIONES',
+  title: 'VIVIENDA AMPLIA DE 2 HABITACIONES EN SANTUTXU',
   subtitle:
-    'A 5 min de la estación de metro de Santutxu. Espacio de estudio en cada habitación. Ideal para residentes de medicina y de enfermería',
+    'A 5 min de la estación de metro. Espacio de estudio en cada habitación. Ideal para residentes de medicina y de enfermería',
   price: 1300,
   numberOfRooms: 2,
   surfaceM2: 81,
