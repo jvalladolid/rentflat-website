@@ -66,7 +66,7 @@ export function Hero({ flat }: HeroProps) {
           {/* Title */}
           <h1
             id="listing-title"
-            className="text-2xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white"
+            className="text-3xl md:text-3xl lg:text-4xlxl font-extrabold tracking-tight text-gray-900 dark:text-white"
           >
             {flat.title}
           </h1>
