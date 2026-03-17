@@ -5,7 +5,7 @@
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { NearbyService, ApproxArea } from '@/data/flat-dto';
-import { serviceIconMap, serviceColorMap } from '@/components/Service-Icons';
+import { ServiceIconMap, ServiceColorMap } from '@/components/Service-Icons';
 
 const WALKING_ICON_SRC = '/icons/Andando.png';
 const METRO_ICON_SRC = '/icons/MetroBilbao.png';
@@ -38,12 +38,12 @@ export function Neighborhood({ services, approximateArea }: NeighborhoodProps) {
 
       <ul className="space-y-4">
         {services.map((service) => {
-          const Icon = serviceIconMap[service.type];
+          const Icon = ServiceIconMap[service.type];
 
           return (
             <li key={service.id} className="flex items-start gap-3">
               {/* ✅ THIS IS WHERE YOUR ICON LINE GOES */}
-              <Icon className={`w-5 h-5 mt-1 ${serviceColorMap[service.type]} opacity-90`} />
+              <Icon className={`w-5 h-5 mt-1 ${ServiceColorMap[service.type]} opacity-90`} />
 
               <div>
                 <strong>{service.name}</strong>

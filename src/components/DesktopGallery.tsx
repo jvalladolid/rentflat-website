@@ -10,36 +10,64 @@ interface DesktopGalleryProps {
 
 export function DesktopGallery({ images, onOpen }: DesktopGalleryProps) {
   return (
-    <div className="hidden md:grid grid-cols-5 gap-2 h-105">
+    <div className="hidden md:grid gap-3 grid-cols-4 auto-rows-[120px]">
       {/* HERO */}
-      <button className="relative col-span-4 h-full" onClick={() => onOpen(0)}>
+      <button
+        type="button"
+        onClick={() => onOpen(0)}
+        className="relative col-span-2 row-span-2 group focus:outline-none focus:ring-2 focus:ring-blue-500"
+        title="Abrir galería en pantalla completa"
+        aria-label="Abrir galería en pantalla completa"
+      >
         <Image
           src={images[0].src}
-          alt={images[0].alt}
+          alt={images[0].alt || 'Imagen principal'}
           fill
-          className="object-cover rounded-l"
+          className="object-cover rounded-lg"
+          sizes="(min-width: 768px) 50vw, 100vw"
           priority
         />
+        <span className="sr-only">Abrir galería</span>
       </button>
 
       {/* THUMBNAILS */}
-      <div className="flex flex-col gap-2">
-        {images.slice(1, 5).map((img, i) => {
-          const isLast = i === 3 && images.length > 5;
+      {images.slice(1, 5).map((img, i) => {
+        const isLast = i === 3 && images.length > 5;
+        const idx = i + 1;
 
-          return (
-            <button key={img.src} className="relative flex-1" onClick={() => onOpen(i + 1)}>
-              <Image src={img.src} alt={img.alt} fill className="object-cover rounded-r" />
+        return (
+          <button
+            key={img.src}
+            type="button"
+            onClick={() => onOpen(idx)}
+            className="relative group focus:outline-none focus:ring-2 focus:ring-blue-500"
+            title={isLast ? 'Ver todas las fotos' : 'Ampliar imagen'}
+            aria-label={isLast ? 'Ver todas las fotos' : 'Ampliar imagen'}
+          >
+            <Image
+              src={img.src}
+              alt={img.alt || `Imagen ${idx + 1}`}
+              fill
+              className="object-cover rounded-lg"
+              sizes="(min-width: 768px) 25vw, 100vw"
+            />
 
-              {isLast && (
-                <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                  <span className="text-white text-xl font-semibold">+{images.length - 5}</span>
-                </div>
-              )}
-            </button>
-          );
-        })}
-      </div>
+            {isLast && (
+              <>
+                {/* capa oscura + contador en español */}
+                <span aria-hidden="true" className="absolute inset-0 bg-black/35 rounded-lg" />
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 flex items-center justify-center text-white font-medium"
+                >
+                  +{images.length - 5}
+                </span>
+                <span className="sr-only">Ver todas las fotos</span>
+              </>
+            )}
+          </button>
+        );
+      })}
     </div>
   );
 }
