@@ -4,7 +4,7 @@ export const flat: Flat = {
   title: 'VIVIENDA AMPLIA Y SILENCIOSA DE 2 HABITACIONES EN SANTUTXU',
   subtitle:
     'A 5 min de la estación de metro de Santutxu. Con espacio de estudio en cada habitación. Ideal para residentes de medicina y de enfermería',
-  price: 1.3,
+  price: 1300,
   numberOfRooms: 2,
   surfaceM2: 81,
   floorDesc: '4º exterior con ascensor',
