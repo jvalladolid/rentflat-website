@@ -1,9 +1,10 @@
 import { Flat } from './flat-dto';
 
 export const flat: Flat = {
-  title: 'VIVIENDA DE 2 HABITACIONES EN SANTUTXU',
-  subtitle: 'Ideal para residentes de medicina y de enfermería',
-  price: '1.200 €/mes',
+  title: 'VIVIENDA AMPLIA Y SILENCIOSA DE 2 HABITACIONES EN SANTUTXU',
+  subtitle:
+    'A 5 min de la estación de metro de Santutxu. Con espacio de estudio en cada habitación. Ideal para residentes de medicina y de enfermería',
+  price: '1.300 €/mes',
   numberOfRooms: 2,
   surfaceM2: 81,
   floorDesc: '4º exterior con ascensor',
@@ -20,20 +21,22 @@ export const flat: Flat = {
     },
   },
   description:
-    'Apartamento espacioso y luminoso en Santutxu, totalmente amueblado y con luz natural. Bien conectado por transporte público (metro). Área tranquila con todos los servicios cercanos.',
+    'Apartamento amplio, silencioso y luminoso en Santutxu, totalmente reformado, amueblado y con luz natural. Conexión rápida por transporte público (metro) a los hospitales de Basurto y Cruces. Área tranquila con todos los servicios cercanos.',
   features: [
-    '2 habitaciones con espacio para estudio',
-    'Cocina totalmente equipada: nevera, lavadora, vitrocerámica, horno, microondas',
+    '2 habitaciones amplias, cada una con armario, escritorio y silla ergonómica, ideal para estudio',
     'Salón amplio con espacio de comedor, que podría usarse como un tercer espacio para estudio',
+    'Cocina totalmente equipada: nevera, lavadora, lavavajillas, vitrocerámica, horno, microondas',
     '1 baño completo con ducha',
-    'Totalmente amueblado',
+    'Ventanas con doble acristalamiento y oscilobatientes, para un ambiente silencioso y una buena ventilación',
     'Ascensor',
-    'Conexión a Internet de alta velocidad (600 Mbps) incluida',
+    'Caldera de gas natural para calefacción y agua caliente',
+    'Totalmente amueblado',
+    'Conexión a Internet de alta velocidad (fibra óptica 600 Mbps), incluida en el precio',
     'A 5 minutos a pie de la estación de metro de Santutxu',
-    'A 10 minutos en metro del Hospital de Basurto',
-    'A 12 minutos en metro del Hospital de Cruces',
+    'A 15-20 minutos en metro del Hospital de Basurto (línea 1 ó 2, parada San Mamés)',
+    'A 20-25 minutos en metro del Hospital de Cruces (línea 2, parada Cruces)',
     'A 10 minutos a pie de la Plaza Nueva y el Casco Viejo de Bilbao',
-    'Supermercados, tiendas locales, gimnasios y parques cercanos',
+    'Supermercados, farmacias, tiendas locales, gimnasios y parques cercanos',
   ],
   images: [
     {
@@ -136,7 +139,7 @@ export const flat: Flat = {
       travelTimes: [
         {
           mode: 'metro',
-          minutes: 20,
+          minutes: 15,
         },
       ],
       location: {
