@@ -92,12 +92,32 @@ export const flat: Flat = {
       alt: 'Habitación Número 1',
     },
     {
+      src: '/images/TravesiaIturribide/Hab_1_4.jpeg',
+      alt: 'Habitación Número 1',
+    },
+    {
       src: '/images/TravesiaIturribide/Hab_2_1.jpeg',
       alt: 'Habitación Número 2',
     },
     {
       src: '/images/TravesiaIturribide/Hab_2_2.jpeg',
       alt: 'Habitación Número 2',
+    },
+    {
+      src: '/images/TravesiaIturribide/Hab_2_3.jpeg',
+      alt: 'Habitación Número 2',
+    },
+    {
+      src: '/images/TravesiaIturribide/Hab_2_4.jpeg',
+      alt: 'Habitación Número 2',
+    },
+    {
+      src: '/images/TravesiaIturribide/Entrada.jpeg',
+      alt: 'Entrada y pasillo',
+    },
+    {
+      src: '/images/TravesiaIturribide/Pasillo.jpeg',
+      alt: 'Entrada y pasillo',
     },
     {
       src: '/images/TravesiaIturribide/Bano_1.jpeg',
@@ -108,12 +128,8 @@ export const flat: Flat = {
       alt: 'Baño completo',
     },
     {
-      src: '/images/TravesiaIturribide/Entrada_Pasillo.jpeg',
-      alt: 'Entrada y pasillo',
-    },
-    {
-      src: '/images/TravesiaIturribide/Pasillo.jpeg',
-      alt: 'Entrada y pasillo',
+      src: '/images/TravesiaIturribide/Bano_3.jpeg',
+      alt: 'Baño completo',
     },
   ],
   nearbyServices: [
