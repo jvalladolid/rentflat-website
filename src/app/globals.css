@@ -1,7 +1,7 @@
 /* Floating WhatsApp Button Styles */
 .whatsapp-float-btn {
   background: #25d366;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   border-radius: 50%;
   width: 56px;
   height: 56px;
@@ -16,7 +16,7 @@
 }
 .whatsapp-float-btn:hover {
   transform: scale(1.08);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
 }
 @media (max-width: 600px) {
   .whatsapp-float-btn {
