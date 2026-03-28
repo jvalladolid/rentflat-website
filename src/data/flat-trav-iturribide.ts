@@ -40,95 +40,95 @@ export const flat: Flat = {
   ],
   images: [
     {
-      src: '/images/TravesiaIturribide/Salon_1.jpeg',
+      src: '/images/TravesiaIturribide/Salon_1.jpg',
       alt: 'Salón con zona de estar y zona de comedor',
     },
     {
-      src: '/images/TravesiaIturribide/Salon_2.jpeg',
+      src: '/images/TravesiaIturribide/Salon_2.jpg',
       alt: 'Salón con zona de estar y zona de comedor',
     },
     {
-      src: '/images/TravesiaIturribide/Salon_3.jpeg',
+      src: '/images/TravesiaIturribide/Salon_3.jpg',
       alt: 'Salón con zona de estar y zona de comedor',
     },
     {
-      src: '/images/TravesiaIturribide/Salon_4.jpeg',
+      src: '/images/TravesiaIturribide/Salon_4.jpg',
       alt: 'Salón con zona de estar y zona de comedor',
     },
     {
-      src: '/images/TravesiaIturribide/Salon_5.jpeg',
+      src: '/images/TravesiaIturribide/Salon_5.jpg',
       alt: 'Salón con zona de estar y zona de comedor',
     },
     {
-      src: '/images/TravesiaIturribide/Salon_6.jpeg',
+      src: '/images/TravesiaIturribide/Salon_6.jpg',
       alt: 'Salón con zona de estar y zona de comedor',
     },
     {
-      src: '/images/TravesiaIturribide/Cocina_1.jpeg',
+      src: '/images/TravesiaIturribide/Cocina_1.jpg',
       alt: 'Cocina totalmente equipada',
     },
     {
-      src: '/images/TravesiaIturribide/Cocina_2.jpeg',
+      src: '/images/TravesiaIturribide/Cocina_2.jpg',
       alt: 'Cocina totalmente equipada',
     },
     {
-      src: '/images/TravesiaIturribide/Cocina_3.jpeg',
+      src: '/images/TravesiaIturribide/Cocina_3.jpg',
       alt: 'Cocina totalmente equipada',
     },
     {
-      src: '/images/TravesiaIturribide/Cocina_4.jpeg',
+      src: '/images/TravesiaIturribide/Cocina_4.jpg',
       alt: 'Cocina totalmente equipada',
     },
     {
-      src: '/images/TravesiaIturribide/Hab_1_1.jpeg',
+      src: '/images/TravesiaIturribide/Hab_1_1.jpg',
       alt: 'Habitación Número 1',
     },
     {
-      src: '/images/TravesiaIturribide/Hab_1_2.jpeg',
+      src: '/images/TravesiaIturribide/Hab_1_2.jpg',
       alt: 'Habitación Número 1',
     },
     {
-      src: '/images/TravesiaIturribide/Hab_1_3.jpeg',
+      src: '/images/TravesiaIturribide/Hab_1_3.jpg',
       alt: 'Habitación Número 1',
     },
     {
-      src: '/images/TravesiaIturribide/Hab_1_4.jpeg',
+      src: '/images/TravesiaIturribide/Hab_1_4.jpg',
       alt: 'Habitación Número 1',
     },
     {
-      src: '/images/TravesiaIturribide/Hab_2_1.jpeg',
+      src: '/images/TravesiaIturribide/Hab_2_1.jpg',
       alt: 'Habitación Número 2',
     },
     {
-      src: '/images/TravesiaIturribide/Hab_2_2.jpeg',
+      src: '/images/TravesiaIturribide/Hab_2_2.jpg',
       alt: 'Habitación Número 2',
     },
     {
-      src: '/images/TravesiaIturribide/Hab_2_3.jpeg',
+      src: '/images/TravesiaIturribide/Hab_2_3.jpg',
       alt: 'Habitación Número 2',
     },
     {
-      src: '/images/TravesiaIturribide/Hab_2_4.jpeg',
+      src: '/images/TravesiaIturribide/Hab_2_4.jpg',
       alt: 'Habitación Número 2',
     },
     {
-      src: '/images/TravesiaIturribide/Entrada.jpeg',
+      src: '/images/TravesiaIturribide/Entrada.jpg',
       alt: 'Entrada y pasillo',
     },
     {
-      src: '/images/TravesiaIturribide/Pasillo.jpeg',
+      src: '/images/TravesiaIturribide/Pasillo.jpg',
       alt: 'Entrada y pasillo',
     },
     {
-      src: '/images/TravesiaIturribide/Bano_1.jpeg',
+      src: '/images/TravesiaIturribide/Bano_1.jpg',
       alt: 'Baño completo',
     },
     {
-      src: '/images/TravesiaIturribide/Bano_2.jpeg',
+      src: '/images/TravesiaIturribide/Bano_2.jpg',
       alt: 'Baño completo',
     },
     {
-      src: '/images/TravesiaIturribide/Bano_3.jpeg',
+      src: '/images/TravesiaIturribide/Bano_3.jpg',
       alt: 'Baño completo',
     },
   ],
