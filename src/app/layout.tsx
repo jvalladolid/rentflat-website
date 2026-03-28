@@ -24,7 +24,40 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        {children}
+        {/* Floating WhatsApp Button */}
+        <a
+          href="https://wa.me/message/T7MRHP2DZ2VJD1"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Contactar por WhatsApp"
+          style={{
+            position: 'fixed',
+            bottom: '24px',
+            right: '24px',
+            zIndex: 1000,
+            width: '56px',
+            height: '56px',
+            borderRadius: '50%',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+            background: 'transparent',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'transform 0.2s',
+          }}
+          className="whatsapp-float-btn"
+        >
+          <img
+            src="/icons/whatsapp.svg"
+            alt="WhatsApp"
+            width={40}
+            height={40}
+            style={{ display: 'block' }}
+          />
+        </a>
+      </body>
     </html>
   );
 }
