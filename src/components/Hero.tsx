@@ -89,7 +89,7 @@ export function Hero({ flat }: HeroProps) {
           {/* Badges */}
           <ul className="flex flex-wrap gap-2 pt-2" role="list" aria-label="Property key details">
             <li>
-              <Badge color="blue">{flat.numberOfRooms} rooms</Badge>
+              <Badge color="blue">{flat.numberOfRooms} habitaciones</Badge>
             </li>
             <li>
               <Badge color="green">{flat.surfaceM2} m²</Badge>
