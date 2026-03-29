@@ -38,9 +38,7 @@ export function MobileGallery({ images, onOpen }: MobileGalleryProps) {
               />
               {/* Overlay for prev/next slides, styled in CSS */}
               <span
-                className={
-                  `${styles.mobileGalleryOverlay} pointer-events-none absolute inset-0 rounded-lg`
-                }
+                className="mobile-gallery-overlay pointer-events-none absolute inset-0 rounded-lg"
                 aria-hidden="true"
               />
             </button>
