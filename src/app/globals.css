@@ -1,18 +1,16 @@
-/* Floating WhatsApp Button Styles */
-.whatsapp-float-btn {
-  background: #25d366;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  border-radius: 50%;
-  width: 56px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 1000;
-  transition: transform 0.2s, box-shadow 0.2s;
+.swiper-slide-prev .mobile-gallery-overlay,
+.swiper-slide-next .mobile-gallery-overlay {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.32) 60%, rgba(0, 0, 0, 0.55) 100%);
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+.swiper-slide-active .mobile-gallery-overlay {
+  opacity: 0;
+}
+.mobile-gallery-overlay {
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 2;
 }
 .whatsapp-float-btn:hover {
   transform: scale(1.08);
@@ -37,12 +35,6 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 }
 @media (prefers-color-scheme: dark) {
   :root {
