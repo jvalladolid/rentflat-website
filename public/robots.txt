@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://rentflat-website.vercel.app/sitemap.xml
