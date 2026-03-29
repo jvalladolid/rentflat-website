@@ -1,0 +1,15 @@
+/* Overlay for prev/next slides in Swiper */
+.swiper-slide-prev .mobileGalleryOverlay,
+.swiper-slide-next .mobileGalleryOverlay {
+  background: linear-gradient(to bottom, rgba(0,0,0,0.18) 60%, rgba(0,0,0,0.32) 100%);
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+.swiper-slide-active .mobileGalleryOverlay {
+  opacity: 0;
+}
+.mobileGalleryOverlay {
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 2;
+}

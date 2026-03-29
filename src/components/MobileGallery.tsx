@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+import styles from './MobileGallery/MobileGallery.module.css';
 import { FlatImage } from '@/data/flat-dto';
 
 interface MobileGalleryProps {
@@ -34,6 +35,13 @@ export function MobileGallery({ images, onOpen }: MobileGalleryProps) {
                 fill
                 className="object-cover rounded-lg"
                 sizes="85vw"
+              />
+              {/* Overlay for prev/next slides, styled in CSS */}
+              <span
+                className={
+                  `${styles.mobileGalleryOverlay} pointer-events-none absolute inset-0 rounded-lg`
+                }
+                aria-hidden="true"
               />
             </button>
           </SwiperSlide>
