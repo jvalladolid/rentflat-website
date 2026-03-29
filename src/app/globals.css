@@ -1,3 +1,18 @@
+/* Overlay for prev/next slides in Swiper (MobileGallery) */
+:global(.swiper-slide-prev) .mobile-gallery-overlay,
+:global(.swiper-slide-next) .mobile-gallery-overlay {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.18) 60%, rgba(0, 0, 0, 0.32) 100%);
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+:global(.swiper-slide-active) .mobile-gallery-overlay {
+  opacity: 0;
+}
+:global(.mobile-gallery-overlay) {
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 2;
+}
 /* Floating WhatsApp Button Styles */
 .whatsapp-float-btn {
   background: #25d366;

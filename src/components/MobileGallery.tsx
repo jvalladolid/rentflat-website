@@ -3,7 +3,6 @@
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-import styles from './MobileGallery/MobileGallery.module.css';
 import { FlatImage } from '@/data/flat-dto';
 
 interface MobileGalleryProps {
