@@ -53,7 +53,14 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Typography: readable defaults */
+h1,
+h2,
+h3,
+p,
+li {
+  text-align: justify;
+  text-justify: inter-word;
+}
 h1,
 h2,
 h3 {
@@ -77,6 +84,8 @@ li {
   color: #374151;
   line-height: 1.7;
   font-size: 16px;
+  text-align: justify;
+  text-justify: inter-word;
 }
 
 /* Spacing rhythm helpers (opt‑in) */
