@@ -4,9 +4,9 @@ export const flat: Flat = {
   title: 'VIVIENDA DE 2 HABITACIONES EN SANTUTXU',
   subtitle:
     'A 5 min de la estación de metro. Espacio de estudio en cada habitación. Ideal para residentes de medicina y de enfermería',
-  price: 1300,
+  price: 960,
   numberOfRooms: 2,
-  surfaceM2: 81,
+  surfaceM2: 82,
   floorDesc: '4º exterior con ascensor',
   location: {
     area: 'Santutxu',
@@ -31,7 +31,7 @@ export const flat: Flat = {
     'Ascensor',
     'Caldera de gas natural para calefacción y agua caliente',
     'Totalmente amueblado',
-    'Conexión a Internet de alta velocidad (fibra óptica 600 Mbps), incluida en el precio',
+    'Conexión a Internet de alta velocidad incluida en el precio',
     'A 5 minutos a pie de la estación de metro de Santutxu',
     'A 15-20 minutos en metro del Hospital de Basurto (línea 1 ó 2, parada San Mamés)',
     'A 20-25 minutos en metro del Hospital de Cruces (línea 2, parada Cruces)',

@@ -15,6 +15,10 @@ export function Description({ description, features }: DescriptionProps) {
           <li key={feature}>{feature}</li>
         ))}
       </ul>
+
+      <p className="mt-4 text-sm text-gray-600 dark:text-gray-300">
+        (*) Texto pendiente por definir.
+      </p>
     </section>
   );
 }
