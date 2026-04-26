@@ -83,9 +83,7 @@ export function Hero({ flat }: HeroProps) {
             <span className="text-4xl lg:text-5xl font-semibold text-blue-700 dark:text-blue-400">
               {formattedNumeric}
             </span>
-            <span className="text-base md:text-lg text-gray-500 dark:text-gray-400">
-              €/mes (*)
-            </span>
+            <span className="text-base md:text-lg text-gray-500 dark:text-gray-400">€/mes (*)</span>
           </div>
 
           {/* Badges */}
