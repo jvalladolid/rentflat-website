@@ -45,20 +45,21 @@ export default function Home() {
         <Hero flat={flat} />
       </section>
       <section id="gallery">
-        <h2 className="text-xl font-bold mb-4">Galería</h2>
+        <h2 className="text-xl font-bold mb-4">GALERÍA</h2>
         <Gallery images={flat.images} />
       </section>
       <section id="description">
         <Description description={flat.description} features={flat.features} />
       </section>
       <section id="neighborhood">
-        <h2 className="text-xl font-bold mb-4">Servicios y entorno</h2>
         <Neighborhood
           services={flat.nearbyServices}
           approximateArea={flat.location.approximateArea}
         />
       </section>
-      <Script id="structured-data" type="application/ld+json"
+      <Script
+        id="structured-data"
+        type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org',
@@ -74,7 +75,7 @@ export default function Home() {
             numberOfRooms: flat.numberOfRooms,
             floorLevel: flat.floorDesc,
             url: 'https://yourdomain.com/',
-            image: flat.images.map(img => ({ url: img.src, alt: img.alt })),
+            image: flat.images.map((img) => ({ url: img.src, alt: img.alt })),
             offers: {
               '@type': 'Offer',
               price: flat.price,
@@ -86,7 +87,7 @@ export default function Home() {
               contactType: 'customer service',
               url: 'https://wa.me/message/T7MRHP2DZ2VJD1',
             },
-          })
+          }),
         }}
       />
     </main>
