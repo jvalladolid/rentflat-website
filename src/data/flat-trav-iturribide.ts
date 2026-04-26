@@ -57,14 +57,6 @@ export const flat: Flat = {
       alt: 'Salón con zona de estar y zona de comedor',
     },
     {
-      src: '/images/TravesiaIturribide/Salon_5.jpg',
-      alt: 'Salón con zona de estar y zona de comedor',
-    },
-    {
-      src: '/images/TravesiaIturribide/Salon_6.jpg',
-      alt: 'Salón con zona de estar y zona de comedor',
-    },
-    {
       src: '/images/TravesiaIturribide/Cocina_1.jpg',
       alt: 'Cocina totalmente equipada',
     },
@@ -74,10 +66,6 @@ export const flat: Flat = {
     },
     {
       src: '/images/TravesiaIturribide/Cocina_3.jpg',
-      alt: 'Cocina totalmente equipada',
-    },
-    {
-      src: '/images/TravesiaIturribide/Cocina_4.jpg',
       alt: 'Cocina totalmente equipada',
     },
     {
