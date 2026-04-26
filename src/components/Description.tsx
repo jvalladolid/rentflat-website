@@ -17,7 +17,20 @@ export function Description({ description, features }: DescriptionProps) {
       </ul>
 
       <p className="mt-4 text-sm text-gray-600 dark:text-gray-300">
-        (*) Texto pendiente por definir.
+        <strong>(*) Condiciones económicas y gastos adicionales</strong>
+        <br />
+        El precio ofertado corresponde a la renta mensual. Los gastos de suministros de la vivienda
+        (luz, agua, gas), correrán a cargo de la parte arrendataria según su consumo, así como los
+        recibos de ibi, comunidad (75 €/mes) y la tasa de residuos.
+      </p>
+
+      <p className="mt-4 text-sm text-gray-600 dark:text-gray-300">
+        La renta mensual está compuesta por el valor que le corresponde atendiendo al índice de
+        referencia de acuerdo a la normativa vigente, que se situa en los 935,26 €/mes, más el coste
+        de la conexión a Internet de alta velocidad.
+        <br />
+        Se informa de que sobre esta vivienda no ha estado vigente ningún contrato de arrendamiento
+        habitual en los últimos 5 años.
       </p>
     </section>
   );
