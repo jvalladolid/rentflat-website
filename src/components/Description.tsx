@@ -21,7 +21,7 @@ export function Description({ description, features }: DescriptionProps) {
         <br />
         El precio ofertado corresponde a la renta mensual. Los gastos de suministros de la vivienda
         (luz, agua, gas), correrán a cargo de la parte arrendataria según su consumo, así como los
-        recibos de ibi, comunidad (75 €/mes) y la tasa de residuos.
+        recibos de IBI, comunidad (75 €/mes) y la tasa de residuos.
       </p>
 
       <p className="mt-4 text-sm text-gray-600 dark:text-gray-300">
