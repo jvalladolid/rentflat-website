@@ -37,6 +37,7 @@ export const flat: Flat = {
     'A 20-25 minutos en metro del Hospital de Cruces (línea 2, parada Cruces)',
     'A 10 minutos a pie de la Plaza Nueva y el Casco Viejo de Bilbao',
     'Supermercados, farmacias, tiendas locales, gimnasios y parques cercanos',
+    'No se admiten mascotas',
   ],
   images: [
     {
