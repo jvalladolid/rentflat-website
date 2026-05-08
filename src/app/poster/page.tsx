@@ -151,7 +151,6 @@ export default function PosterA3Page() {
           </div>
         </section>
       </article>
-
     </main>
   );
 }
