@@ -118,3 +118,33 @@ li {
   box-shadow: 0 0 0 2px #fff, 0 0 0 4px #2563eb; /* blue-600 */
   border-radius: 6px;
 }
+
+/* Poster A3 print layout */
+@page {
+  size: A3 portrait;
+  margin: 0;
+}
+
+@media print {
+  body {
+    background: #fff !important;
+  }
+
+  .poster-page {
+    padding: 0 !important;
+    background: #fff !important;
+    min-height: auto !important;
+  }
+
+  .a3-sheet {
+    width: 297mm !important;
+    min-height: 420mm !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}

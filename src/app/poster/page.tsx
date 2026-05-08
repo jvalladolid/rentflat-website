@@ -152,36 +152,6 @@ export default function PosterA3Page() {
         </section>
       </article>
 
-      <style jsx global>{`
-        @page {
-          size: A3 portrait;
-          margin: 0;
-        }
-
-        @media print {
-          body {
-            background: #fff !important;
-          }
-
-          .poster-page {
-            padding: 0 !important;
-            background: #fff !important;
-            min-height: auto !important;
-          }
-
-          .a3-sheet {
-            width: 297mm !important;
-            min-height: 420mm !important;
-            margin: 0 !important;
-            border-radius: 0 !important;
-            box-shadow: none !important;
-          }
-
-          .no-print {
-            display: none !important;
-          }
-        }
-      `}</style>
     </main>
   );
 }
