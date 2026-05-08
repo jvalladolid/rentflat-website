@@ -26,7 +26,9 @@ function formatDate(dateISO?: string) {
 
 export default function PosterA3Page() {
   const listingUrl = 'https://rentflat-website.vercel.app/';
-  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=520x520&margin=16&data=${encodeURIComponent(listingUrl)}`;
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=520x520&margin=16&data=${encodeURIComponent(
+    listingUrl,
+  )}`;
   const mainImage = flat.images[0];
   const gallery = flat.images.slice(1, 5);
   const highlights = [
@@ -49,8 +51,12 @@ export default function PosterA3Page() {
         style={{ width: '297mm', minHeight: '420mm' }}
       >
         <section className="p-12 pb-8 bg-linear-to-r from-sky-700 to-blue-900 text-white">
-          <p className="uppercase tracking-[0.25em] text-xs font-semibold opacity-90">Alquiler en Bilbao</p>
-          <h1 className="mt-3 text-5xl leading-tight font-extrabold text-white text-left">{flat.title}</h1>
+          <p className="uppercase tracking-[0.25em] text-xs font-semibold opacity-90">
+            Alquiler en Bilbao
+          </p>
+          <h1 className="mt-3 text-5xl leading-tight font-extrabold text-white text-left">
+            {flat.title}
+          </h1>
           <p className="mt-4 text-lg leading-relaxed text-blue-50 text-left">{flat.subtitle}</p>
 
           <div className="mt-6 flex flex-wrap items-end gap-6">
@@ -79,7 +85,10 @@ export default function PosterA3Page() {
 
             <div className="grid grid-cols-2 gap-4">
               {gallery.map((img) => (
-                <div key={img.src} className="relative h-[52mm] rounded-lg overflow-hidden border border-slate-200">
+                <div
+                  key={img.src}
+                  className="relative h-[52mm] rounded-lg overflow-hidden border border-slate-200"
+                >
                   <Image src={img.src} alt={img.alt} fill sizes="30vw" className="object-cover" />
                 </div>
               ))}
@@ -101,7 +110,9 @@ export default function PosterA3Page() {
               ))}
             </div>
 
-            <h3 className="mt-7 text-xl font-bold text-slate-900 text-left">Características destacadas</h3>
+            <h3 className="mt-7 text-xl font-bold text-slate-900 text-left">
+              Características destacadas
+            </h3>
             <ul className="mt-3 space-y-2 text-[15px] leading-relaxed text-slate-700 list-disc pl-5">
               {flat.features.slice(0, 8).map((feature) => (
                 <li key={feature}>{feature}</li>
@@ -109,12 +120,16 @@ export default function PosterA3Page() {
             </ul>
 
             <div className="mt-auto rounded-xl border-2 border-blue-700 bg-blue-50 p-5">
-              <p className="text-sm uppercase tracking-wide text-blue-700 font-semibold">Más información</p>
+              <p className="text-sm uppercase tracking-wide text-blue-700 font-semibold">
+                Más información
+              </p>
               <p className="mt-2 text-base text-slate-900">Web: rentflat-website.vercel.app</p>
               <p className="mt-1 text-sm text-slate-700">WhatsApp: wa.me/message/T7MRHP2DZ2VJD1</p>
 
               <div className="mt-4 rounded-lg bg-white border-2 border-blue-700 p-3 flex flex-col items-center">
-                <p className="text-center text-sm font-semibold text-blue-800">Escanea para ver la web completa</p>
+                <p className="text-center text-sm font-semibold text-blue-800">
+                  Escanea para ver la web completa
+                </p>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={qrUrl}
@@ -123,11 +138,14 @@ export default function PosterA3Page() {
                   height={520}
                   className="mt-2 w-[46mm] h-[46mm] max-w-full"
                 />
-                <p className="mt-2 text-[11px] text-center leading-tight text-slate-600">{listingUrl}</p>
+                <p className="mt-2 text-[11px] text-center leading-tight text-slate-600">
+                  {listingUrl}
+                </p>
               </div>
 
               <p className="mt-3 text-xs text-slate-500">
-                Escanea el QR de la web o entra directamente para ver galería completa, mapa y condiciones.
+                Escanea el QR de la web o entra directamente para ver galería completa, mapa y
+                condiciones.
               </p>
             </div>
           </div>
