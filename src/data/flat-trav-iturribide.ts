@@ -240,7 +240,7 @@ export const flat: Flat = {
     },
   ],
   availability: {
-    availableFrom: '2026-04-01',
+    availableFrom: '2026-05-01',
     minimumStayMonths: 12,
   },
 };
